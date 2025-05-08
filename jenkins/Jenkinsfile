@@ -8,11 +8,33 @@ pipeline {
     AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key')
   }
   stages {
+    stage('Resolve MinIO IP') {
+        steps {
+            script {
+                def minioIp = sh(
+                    script: "getent hosts ${env.MINIO_HOST} | awk '{ print \$1 }'",
+                    returnStdout: true
+                ).trim()
+                
+                echo "Resolved MinIO IP: ${minioIp}"
+
+                // Save to environment variable or pass along
+                env.MINIO_IP = minioIp
+            }
+        }
+    }
+    stage('Use MinIO IP') {
+      steps {
+          echo "Now using MinIO IP: ${env.MINIO_IP}"
+          // Example usage
+          sh "curl http://${env.MINIO_IP}:9000"
+      }
+    }
     stage('init') {
       agent {
         docker {
           image 'hashicorp/terraform:1.11.4'
-          args '--entrypoint=""'
+          args '--entrypoint="" --add-host minio:${env.MINIO_IP}'
         }
       }
       steps {
