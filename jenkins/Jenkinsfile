@@ -12,7 +12,7 @@ pipeline {
         steps {
             script {
                 def minioIp = sh(
-                    script: "getent hosts ${env.MINIO_HOST} | awk '{ print \$1 }'",
+                    script: "getent hosts minio | awk '{ print $1 }'",
                     returnStdout: true
                 ).trim()
                 
