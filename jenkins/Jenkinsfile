@@ -10,9 +10,9 @@ pipeline {
       }
       steps {
         dir('terraform')
-        sh ''''
+        sh '''
           terraform init -no-color
-        ''''
+        '''
       }
     }
   }

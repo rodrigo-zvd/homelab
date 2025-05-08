@@ -1,5 +1,5 @@
 # Base Jenkins image
-FROM jenkins/jenkins:latest
+FROM jenkins/jenkins:2.509
 
 # Switch to root to install dependencies
 USER root
@@ -28,9 +28,9 @@ RUN groupadd docker && usermod -aG docker jenkins
 # Switch back to Jenkins user
 USER jenkins
 
-COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
-RUN jenkins-plugin-cli --plugin-file /usr/share/jenkins/ref/plugins.txt
+# COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
+# RUN jenkins-plugin-cli --plugin-file /usr/share/jenkins/ref/plugins.txt
 
-RUN echo 2.0 > /usr/share/jenkins/ref/jenkins.install.UpgradeWizard.state
-COPY init.groovy.d/ /usr/share/jenkins/ref/init.groovy.d
-# COPY Jenkinsfile /usr/share/jenkins/ref/jobs/Jenkinsfil
+# RUN echo 2.0 > /usr/share/jenkins/ref/jenkins.install.UpgradeWizard.state
+# COPY init.groovy.d/ /usr/share/jenkins/ref/init.groovy.d
+# # COPY Jenkinsfile /usr/share/jenkins/ref/jobs/Jenkinsfil
