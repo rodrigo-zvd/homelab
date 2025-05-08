@@ -39,7 +39,7 @@ locals {
   # master specific configuration
   masters = {
     # how many nodes?
-    count = 3
+    count = 1
 
     name_prefix = "k8s-master"
 
@@ -61,7 +61,7 @@ locals {
 
   # worker specific configuration
   workers = {
-    count = 3
+    count = 1
 
     name_prefix = "k8s-worker"
 

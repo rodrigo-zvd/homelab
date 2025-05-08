@@ -10,6 +10,22 @@ terraform {
       version = "2.5.2"
     }
   }
+  backend "s3" {
+    bucket = "xenorchestra-state"
+    key = "terraform.state"
+    region = "placeholder"
+
+    endpoints = {
+      s3 = "http://localhost:9000"
+    }
+
+    skip_credentials_validation = true
+    skip_metadata_api_check = true
+    skip_region_validation = true
+    skip_requesting_account_id = true
+    use_path_style = true
+    
+  }
 }
 
 # Configure the XenServer Provider
@@ -22,7 +38,7 @@ provider "xenorchestra" {
   # This is false by default and
   # will disable ssl verification if true.
   # This is useful if your deployment uses
-  # a self signed certificate but should be
+  # a self signed certificate but should beter
   # used sparingly!
   insecure = true # Or set XOA_INSECURE environment variable to any value
 }
