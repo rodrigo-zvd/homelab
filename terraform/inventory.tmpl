@@ -1,0 +1,29 @@
+[all]
+%{ for i in range(length(masters)) ~}
+${masters[i].name} ansible_host=${masters[i].ip} ansible_user=${masters[i].user} etcd_member_name=etcd${i + 1}
+%{ endfor ~}
+%{ for i in range(length(workers)) ~}
+${workers[i].name} ansible_host=${workers[i].ip} ansible_user=${workers[i].user}
+%{ endfor ~}
+
+[kube_control_plane]
+%{ for i in range(length(masters)) ~}
+${masters[i].name}
+%{ endfor ~}
+
+[etcd]
+%{ for i in range(length(masters)) ~}
+${masters[i].name}
+%{ endfor ~}
+
+[kube_node]
+%{ for i in range(length(workers)) ~}
+${workers[i].name}
+%{ endfor ~}
+
+[calico_rr]
+
+[k8s_cluster:children]
+kube_control_plane
+kube_node
+calico_rr
