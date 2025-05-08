@@ -97,3 +97,5 @@ volumes:
   minio_data:
   xo-data:
   redis-data:
+
+  docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker --name ci-runner alpine sh

@@ -16,7 +16,7 @@ terraform {
     region = "placeholder"
 
     endpoints = {
-      s3 = "http://minio:9000"
+      s3 = "http://172.19.0.5:9000"
     }
 
     skip_credentials_validation = true
