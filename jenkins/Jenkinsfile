@@ -9,7 +9,7 @@ pipeline {
     // MINIO_URL = 
   }
   stages {
-    stage('Capturar IP do MinIO') {
+    stage('Set IP do MinIO') {
       steps {
         script {
           def minioIp = sh(script: "getent hosts minio | awk '{ print \$1 }'", returnStdout: true).trim()
@@ -32,7 +32,7 @@ pipeline {
       steps {
         dir('terraform'){
         sh '''
-          terraform init -migrate-state -no-color
+          #terraform init -migrate-state -no-color
           sleep 3600
         '''
         }
