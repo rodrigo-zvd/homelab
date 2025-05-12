@@ -37,7 +37,7 @@ pipeline {
           def minioIp = sh(script: "getent hosts minio | awk '{ print \$1 }'", returnStdout: true).trim()
           env.MINIO_URL = minioIp
           def xoaIp = sh(script: "getent hosts xen-orchestra | awk '{ print \$1 }'", returnStdout: true).trim()
-          env.XOA_URL = xoaIp
+          env.XOA_IP = xoaIp
         }
       }
     }
@@ -62,7 +62,7 @@ pipeline {
       agent {
         docker {
           image 'hashicorp/terraform:1.11.4'
-          args "--entrypoint= --add-host minio:${env.MINIO_URL}  --add-host minio:${env.XOA_URL}"
+          args "--entrypoint= --add-host minio:${env.MINIO_URL}  --add-host minio:${env.XOA_IP}"
         }
       }
       steps {
