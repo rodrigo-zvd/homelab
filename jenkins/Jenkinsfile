@@ -32,8 +32,8 @@ pipeline {
       steps {
         dir('terraform'){
         sh '''
-          #terraform init -migrate-state -no-color
-          sleep 3600
+          terraform init -no-color
+          #sleep 3600
         '''
         }
       }
