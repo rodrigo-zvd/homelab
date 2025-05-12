@@ -46,7 +46,7 @@ pipeline {
       agent {
         docker {
           image 'hashicorp/terraform:1.11.4'
-          args "--entrypoint= --network docker"
+          args "--entrypoint= --add-host minio:${env.MINIO_URL}  --add-host minio:${env.XOA_URL}"
         }
       }
       steps {
