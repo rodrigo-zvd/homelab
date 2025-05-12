@@ -37,7 +37,7 @@ pipeline {
           def minioIp = sh(script: "getent hosts minio | awk '{ print \$1 }'", returnStdout: true).trim()
           env.MINIO_URL = minioIp
           def xoaIp = sh(script: "getent hosts xen-orchestra | awk '{ print \$1 }'", returnStdout: true).trim()
-          env.XOA_URL = "ws://${xoaIp}
+          env.XOA_URL = "ws://${xoaIp}"
         }
       }
     }
