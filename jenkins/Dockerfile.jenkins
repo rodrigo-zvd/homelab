@@ -6,7 +6,7 @@ USER root
 
 # Install useful tools and curl for downloading CLI
 RUN apt-get update && \
-    apt-get install -y sudo vim curl wget gnupg2 software-properties-common apt-transport-https ca-certificates
+    apt-get install -y sudo vim curl wget gnupg2 software-properties-common apt-transport-https ca-certificates dnsutils
 
 # Set root password (for debugging use only)
 RUN echo 'root:abc123' | chpasswd

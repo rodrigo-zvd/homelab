@@ -7,9 +7,22 @@ pipeline {
     AWS_ACCESS_KEY_ID = credentials('aws_access_key_id')
     AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key')
     AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key')
-    MINIO_URL = 
+    // MINIO_URL = 
   }
   stages {
+    stage('Capturar IP do MinIO') {
+      steps {
+        script {
+          def minioIp = sh(script: "getent hosts minio | awk '{ print \$1 }'", returnStdout: true).trim()
+          env.MINIO_URL = minioIp
+        }
+      }
+    }
+    stage('Usar MINIO_URL') {
+      steps {
+        echo "IP do MinIO: ${env.MINIO_URL}"
+      }
+    }
     stage('init') {
       agent {
         docker {
