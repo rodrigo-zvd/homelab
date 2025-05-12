@@ -17,11 +17,6 @@ pipeline {
         }
       }
     }
-    stage('Usar MINIO_URL') {
-      steps {
-        echo "IP do MinIO: ${env.MINIO_URL}"
-      }
-    }
     stage('init') {
       agent {
         docker {
@@ -33,6 +28,21 @@ pipeline {
         dir('terraform'){
         sh '''
           terraform init -no-color
+          #sleep 3600
+        '''
+        }
+      }
+    stage('plan') {
+      agent {
+        docker {
+          image 'hashicorp/terraform:1.11.4'
+          args "--entrypoint= --add-host minio:${env.MINIO_URL}"
+        }
+      }
+      steps {
+        dir('terraform'){
+        sh '''
+          terraform plan -no-color
           #sleep 3600
         '''
         }
