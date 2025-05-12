@@ -6,7 +6,6 @@ pipeline {
     XOA_PASSWORD = credentials('xoa_password')
     AWS_ACCESS_KEY_ID = credentials('aws_access_key_id')
     AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key')
-    AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key')
     // MINIO_URL = 
   }
   stages {
@@ -27,7 +26,7 @@ pipeline {
       agent {
         docker {
           image 'hashicorp/terraform:1.11.4'
-          args '--entrypoint="" --add-host minio:${env.MINIO_IP}'
+          args "--entrypoint= --add-host minio:${env.MINIO_URL}"
         }
       }
       steps {
