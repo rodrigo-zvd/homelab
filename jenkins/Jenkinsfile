@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment {
-    // XOA_URL = credentials('xoa_url')
+    XOA_URL = credentials('xoa_url')
     XOA_USER = credentials('xoa_user')
     XOA_PASSWORD = credentials('xoa_password')
     AWS_ACCESS_KEY_ID = credentials('aws_access_key_id')
@@ -46,7 +46,7 @@ pipeline {
       agent {
         docker {
           image 'hashicorp/terraform:1.11.4'
-          args "--entrypoint= --add-host minio:${env.MINIO_URL} --add-host minio:${env.XOA_URL}"
+          args "--entrypoint= --network docker"
         }
       }
       steps {

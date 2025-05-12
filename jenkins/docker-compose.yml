@@ -62,7 +62,6 @@ services:
   xen-orchestra:
     build:
       context: xen-orchestra/
-      # dockerfile: Dockerfile.xen-orchestra
     restart: unless-stopped
     stop_grace_period: 1m
     ports:
