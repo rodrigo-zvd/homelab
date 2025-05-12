@@ -60,10 +60,9 @@ services:
 
   xen-orchestra:
     build:
-      context: .
-      dockerfile: Dockerfile.xen-orchestra
+      context: xen-orchestra/
+      # dockerfile: Dockerfile.xen-orchestra
     restart: unless-stopped
-    # image: ronivay/xen-orchestra:latest
     stop_grace_period: 1m
     ports:
         - "8081:80"

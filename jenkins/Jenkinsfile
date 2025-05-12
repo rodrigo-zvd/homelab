@@ -6,30 +6,10 @@ pipeline {
     XOA_PASSWORD = credentials('xoa_password')
     AWS_ACCESS_KEY_ID = credentials('aws_access_key_id')
     AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key')
+    AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key')
+    MINIO_URL = 
   }
   stages {
-    stage('Resolve MinIO IP') {
-        steps {
-            script {
-                def minioIp = sh(
-                    script: "getent hosts minio | awk '{ print $1 }'",
-                    returnStdout: true
-                ).trim()
-                
-                echo "Resolved MinIO IP: ${minioIp}"
-
-                // Save to environment variable or pass along
-                env.MINIO_IP = minioIp
-            }
-        }
-    }
-    stage('Use MinIO IP') {
-      steps {
-          echo "Now using MinIO IP: ${env.MINIO_IP}"
-          // Example usage
-          sh "curl http://${env.MINIO_IP}:9000"
-      }
-    }
     stage('init') {
       agent {
         docker {
