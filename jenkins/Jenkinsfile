@@ -1,5 +1,6 @@
 pipeline {
   agent any
+
   environment {
     XOA_URL = credentials('xoa_url')
     XOA_USER = credentials('xoa_user')
@@ -8,7 +9,9 @@ pipeline {
     AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key')
     // MINIO_URL = 
   }
+  
   stages {
+  
     stage('Set IP do MinIO') {
       steps {
         script {
@@ -17,6 +20,7 @@ pipeline {
         }
       }
     }
+  
     stage('init') {
       agent {
         docker {
@@ -28,10 +32,11 @@ pipeline {
         dir('terraform'){
         sh '''
           terraform init -no-color
-          #sleep 3600
         '''
         }
       }
+    }
+  
     stage('plan') {
       agent {
         docker {
@@ -49,5 +54,4 @@ pipeline {
       }
     }
   }
-}
 }
