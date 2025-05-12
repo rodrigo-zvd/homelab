@@ -31,7 +31,7 @@ terraform {
 # Configure the XenServer Provider
 provider "xenorchestra" {
   # Must be ws or wss
-  # url      = "ws://xen-orchestra:80" # Or set XOA_URL environment variable
+  url      = "ws://xen-orchestra:80" # Or set XOA_URL environment variable
   # username = "admin@admin.net"                   # Or set XOA_USER environment variable
   # password = "admin"               # Or set XOA_PASSWORD environment variable
 
