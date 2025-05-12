@@ -67,7 +67,6 @@ pipeline {
         dir('terraform'){
         sh '''
           terraform plan -no-color
-          #sleep 3600
         '''
         }
       }
