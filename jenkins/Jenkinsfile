@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment {
-    XOA_URL = credentials('xoa_url')
+    // XOA_URL = credentials('xoa_url')
     XOA_USER = credentials('xoa_user')
     XOA_PASSWORD = credentials('xoa_password')
     AWS_ACCESS_KEY_ID = credentials('aws_access_key_id')
@@ -31,11 +31,13 @@ pipeline {
       }
     }
 
-    stage('setup minio address') {
+    stage('setup terraform endpoints') {
       steps {
         script {
           def minioIp = sh(script: "getent hosts minio | awk '{ print \$1 }'", returnStdout: true).trim()
           env.MINIO_URL = minioIp
+          def xoaIp = sh(script: "getent hosts xen-orchestra | awk '{ print \$1 }'", returnStdout: true).trim()
+          env.XOA_URL = xoaIp
         }
       }
     }
@@ -44,7 +46,7 @@ pipeline {
       agent {
         docker {
           image 'hashicorp/terraform:1.11.4'
-          args "--entrypoint= --add-host minio:${env.MINIO_URL}"
+          args "--entrypoint= --add-host minio:${env.MINIO_URL} --add-host minio:${env.XOA_URL}"
         }
       }
       steps {
@@ -60,7 +62,7 @@ pipeline {
       agent {
         docker {
           image 'hashicorp/terraform:1.11.4'
-          args "--entrypoint= --add-host minio:${env.MINIO_URL}"
+          args "--entrypoint= --add-host minio:${env.MINIO_URL}  --add-host minio:${env.XOA_URL}"
         }
       }
       steps {
@@ -71,7 +73,7 @@ pipeline {
         }
       }
     }
-    
+
   }
 
 }
