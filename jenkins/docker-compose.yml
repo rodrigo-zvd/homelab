@@ -37,7 +37,6 @@ services:
       - jenkins-docker-certs:/certs/client
       - jenkins-data:/var/jenkins_home
       - docker-cache:/var/lib/docker
-      - /var/run/docker.sock:/var/run/docker.sock 
 
   minio:
     image: quay.io/minio/minio:RELEASE.2024-11-07T00-52-20Z
@@ -63,6 +62,7 @@ services:
   xen-orchestra:
     build:
       context: xen-orchestra/
+      # dockerfile: Dockerfile.xen-orchestra
     restart: unless-stopped
     stop_grace_period: 1m
     ports:
