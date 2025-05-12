@@ -54,7 +54,7 @@ locals {
     }
 
     # 192.168.0.7x and so on...
-    network_last_octect = 70
+    network_last_octect = 30
 
     tags = "masters"
   }
@@ -75,7 +75,7 @@ locals {
       }
     }
 
-    network_last_octect = 80
+    network_last_octect = 40
 
     tags = "workers"
   }
