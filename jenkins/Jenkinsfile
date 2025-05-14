@@ -80,6 +80,11 @@ pipeline {
         '''
         }
       }
+      when {
+        expression {
+          params.CREATE_OR_DESTROY == "Create"
+        }
+      }
     }
 
     stage('apply') {
@@ -94,6 +99,11 @@ pipeline {
         sh '''
           terraform apply -no-color -auto-approve
         '''
+        }
+      }
+      when {
+        expression {
+          params.CREATE_OR_DESTROY == "Create"
         }
       }
     }
@@ -118,6 +128,11 @@ pipeline {
               --private-key id_ed25519 \
               /kubespray/cluster.yml
           '''
+        }
+      }
+      when {
+        expression {
+          params.CREATE_OR_DESTROY == "Create"
         }
       }
     }
