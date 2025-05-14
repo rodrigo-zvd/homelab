@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.jenkins
+    restart: always
     environment:
       - DOCKER_HOST=tcp://docker:2376
       - DOCKER_CERT_PATH=/certs/client
@@ -40,6 +41,7 @@ services:
 
   minio:
     image: quay.io/minio/minio:RELEASE.2024-11-07T00-52-20Z
+    restart: always
     command:
       - server
       - /data
