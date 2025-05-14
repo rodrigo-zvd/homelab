@@ -125,12 +125,12 @@ pipeline {
     stage('destroy') {
       agent {
         docker {
-          image 'hashicorp/terraform:1.9.8'
+          image 'hashicorp/terraform:1.11.4'
           args '--entrypoint=""'
         }
       }
       steps {
-        dir('kubernetes/02_kubernetes_production_ready/terraform') {
+        dir('terraform') {
           sh '''
             terraform apply -destroy -no-color -auto-approve
           '''
