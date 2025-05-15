@@ -13,7 +13,8 @@ copyartifact
 coverage  
 cvs  
 dark-theme  
-dashboard-view  
+dashboard-view
+docker-workflow
 email-ext  
 emailext-template  
 embeddable-build-status  
