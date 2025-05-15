@@ -8,4 +8,4 @@ RUN npm install --global xo-cli
 
 RUN xo-cli register --allowUnauthorized http://localhost admin@admin.net admin
 
-#RUN xo-cli server.add host=192.168.1.10 username="root" password="m3gaFox50" autoConnect=true allowUnauthorized=true
+RUN xo-cli server.add host=${XCP_MASTER_IP} username="${XCP_USER}" password="${XCP_PASSWORD}" autoConnect=true allowUnauthorized=true

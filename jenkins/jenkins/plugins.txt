@@ -38,7 +38,8 @@ pam-auth
 p4  
 parameterized-trigger  
 pipeline-github-lib  
-pipeline-graph-view  
+pipeline-graph-view
+pipeline-stage-view
 repo  
 role-strategy  
 ssh-agent  
