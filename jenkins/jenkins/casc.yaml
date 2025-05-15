@@ -20,3 +20,22 @@ security:
 unclassified:
   location:
     url: http://localhost:8080/
+credentials:
+  system:
+    domainCredentials:
+      - credentials:
+          - string:
+              scope: GLOBAL
+              id: "xoa_user"
+              secret: "admin@admin.net"
+              description: "Secret Text"
+          - string:
+              scope: GLOBAL
+              id: "xoa_password"
+              secret: "admin"
+              description: "Secret Text"
+          - string:
+              scope: GLOBAL
+              id: "xoa_user"
+              secret: "admin@admin.net"
+              description: "Secret Text"
