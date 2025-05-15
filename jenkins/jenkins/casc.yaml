@@ -20,6 +20,8 @@ security:
 unclassified:
   location:
     url: http://localhost:8080/
+appearance:
+  themeManager: dark
 credentials:
   system:
     domainCredentials:
