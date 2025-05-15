@@ -7,12 +7,6 @@ ENV CASC_JENKINS_CONFIG /var/jenkins_home/casc.yaml
 # Switch to root to install dependencies
 USER root
 
-# Set root password (for debugging use only)
-RUN echo 'root:abc123' | chpasswd
-
-# Allow jenkins user to sudo without password
-RUN echo "jenkins ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-
 COPY --chown=jenkins:jenkins plugins.txt /usr/share/jenkins/ref/plugins.txt
 RUN jenkins-plugin-cli --plugin-file /usr/share/jenkins/ref/plugins.txt
 COPY casc.yaml /var/jenkins_home/casc.yaml
@@ -20,6 +14,12 @@ COPY casc.yaml /var/jenkins_home/casc.yaml
 # Install useful tools and curl for downloading CLI
 RUN apt-get update && \
     apt-get install -y sudo vim curl wget gnupg2 software-properties-common apt-transport-https ca-certificates dnsutils
+
+# Set root password (for debugging use only)
+RUN echo 'root:abc123' | chpasswd
+
+# Allow jenkins user to sudo without password
+RUN echo "jenkins ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # Add Docker repository and install docker CLI
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc && \
@@ -34,10 +34,3 @@ RUN groupadd docker && usermod -aG docker jenkins
 
 # Switch back to Jenkins user
 USER jenkins
-
-# COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
-# RUN jenkins-plugin-cli --plugin-file /usr/share/jenkins/ref/plugins.txt
-
-# RUN echo 2.0 > /usr/share/jenkins/ref/jenkins.install.UpgradeWizard.state
-# COPY init.groovy.d/ /usr/share/jenkins/ref/init.groovy.d
-# # COPY Jenkinsfile /usr/share/jenkins/ref/jobs/Jenkinsfil

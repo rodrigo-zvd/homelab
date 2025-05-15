@@ -44,3 +44,15 @@ credentials:
               id: "aws_secret_access_key"
               secret: "terraform123"
               description: "Secret Text"
+          - string:
+              scope: GLOBAL
+              id: "jenkins-pub-key"
+              secret: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC4R6sDKkpml8MIuwEUYjlYzFoDKFkmY+bYP2wZBNtJAl487+bQp0VLs9sAv5SHpmJ1OlZd6hQQp6eI3Spls4q2IvgejzCkwRVh8Sv1r3Rk5nB2NSPRsJuQAElpf1JCaJzF55FoY8iO7FNlpWysqZ50KVVitMUePFKEgAGIWmlFPDcICCazpyMNDgIJigLm1pED1SqEAmLrMnldUZ0DUdjYMPV4nsEjK8eTWN3ABFXq3iV0q1oBas4etvYypFbNF4bPAWhCXkVhQ4brmZWqAAUUpKF6JgFPH8zEVYPQ7XUJZfV+gBTLmWKsbslJtD2l+79NJoJuN4F2eWTYKg047jM6M8ntujjTi+Lqpoz1BQyd8g3Fe7634a4SR0J6XOjTcrKBWdNjl/NPgEBFmIfL5g2fVdSU40aIMfF5ZSRZdkPmflpouq34P85/V5dfKJSZZ6iyM3ecLliMzaxxC+/e/6eH8dDBy40W+eJPnWCFqR4GtP3xTQJxMWrmIIuWAz2XaPE= azevedo@pop-os"
+              description: "Secret Text"
+          - basicSSHUserPrivateKey:
+              scope: SYSTEM
+              id: "jenkins-priv-key"
+              description: "SSH passphrase with private key file. Private key provided"
+              privateKeySource:
+                directEntry:
+                  privateKey: "${readFile:~/.ssh/id_rsa}" # Path to file loaded from Environment Variable
