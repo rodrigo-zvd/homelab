@@ -11,7 +11,7 @@ terraform {
     }
   }
   backend "s3" {
-    bucket = "xenorchestra-state"
+    bucket = "terraform-state"
     key = "terraform.state"
     region = "placeholder"
 
