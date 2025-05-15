@@ -36,6 +36,11 @@ credentials:
               description: "Secret Text"
           - string:
               scope: GLOBAL
-              id: "xoa_user"
-              secret: "admin@admin.net"
+              id: "aws_access_key_id"
+              secret: "terraform"
+              description: "Secret Text"
+          - string:
+              scope: GLOBAL
+              id: "aws_secret_access_key"
+              secret: "terraform123"
               description: "Secret Text"
