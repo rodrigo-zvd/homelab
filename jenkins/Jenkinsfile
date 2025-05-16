@@ -20,143 +20,168 @@ pipeline {
 
   stages {
 
-    stage('authentication') {
+    stage('debug environment') {
       agent {
         docker {
           image 'alpine'
         }
       }
       steps {
-        dir('terraform') {
-          withCredentials([sshUserPrivateKey(credentialsId: 'jenkins-priv-key', keyFileVariable: 'JENKINS_PRIV_KEY')]) {
-            sh '''
-              cp "$JENKINS_PRIV_KEY" id_ed25519
-              echo "$JENKINS_PUB_KEY" > id_ed25519.pub
-            '''
-          }
-        }
+        sh '''
+          echo "==== DEBUG ENVIRONMENT VARIABLES ===="
+          echo "CREATE_OR_DESTROY=${CREATE_OR_DESTROY}"
+          echo "XOA_USER=${XOA_USER}"
+          echo "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}"
+
+          echo "JENKINS_PUB_KEY length: ${#JENKINS_PUB_KEY}"
+          echo "JENKINS_PRIV_KEY length: ${#JENKINS_PRIV_KEY}"
+          echo "XOA_PASSWORD: [REDACTED]"
+          echo "AWS_SECRET_ACCESS_KEY: [REDACTED]"
+          echo "======================================"
+        '''
       }
     }
 
-    stage('setup terraform endpoints') {
-      steps {
-        script {
-          def minioIp = sh(script: "getent hosts minio | awk '{ print \$1 }'", returnStdout: true).trim()
-          env.MINIO_URL = minioIp
-          def xoaIp = sh(script: "getent hosts xen-orchestra | awk '{ print \$1 }'", returnStdout: true).trim()
-          env.XOA_IP = xoaIp
-        }
-      }
-    }
+
+
+
+//     stage('authentication') {
+//       agent {
+//         docker {
+//           image 'alpine'
+//         }
+//       }
+//       steps {
+//         dir('terraform') {
+//           withCredentials([sshUserPrivateKey(credentialsId: 'jenkins-priv-key', keyFileVariable: 'JENKINS_PRIV_KEY')]) {
+//             sh '''
+//               cp "$JENKINS_PRIV_KEY" id_ed25519
+//               echo "$JENKINS_PUB_KEY" > id_ed25519.pub
+//             '''
+//           }
+//         }
+//       }
+//     }
+
+//     stage('setup terraform endpoints') {
+//       steps {
+//         script {
+//           def minioIp = sh(script: "getent hosts minio | awk '{ print \$1 }'", returnStdout: true).trim()
+//           env.MINIO_URL = minioIp
+//           def xoaIp = sh(script: "getent hosts xen-orchestra | awk '{ print \$1 }'", returnStdout: true).trim()
+//           env.XOA_IP = xoaIp
+//         }
+//       }
+//     }
   
-    stage('init') {
-      agent {
-        docker {
-          image 'hashicorp/terraform:1.11.4'
-          args "--entrypoint= --add-host minio:${env.MINIO_URL} --add-host xen-orchestra:${env.XOA_IP}"
-        }
-      }
-      steps {
-        dir('terraform'){
-        sh '''
-          terraform init -no-color
-        '''
-        }
-      }
-    }
+//     stage('init') {
+//       agent {
+//         docker {
+//           image 'hashicorp/terraform:1.11.4'
+//           args "--entrypoint= --add-host minio:${env.MINIO_URL} --add-host xen-orchestra:${env.XOA_IP}"
+//         }
+//       }
+//       steps {
+//         dir('terraform'){
+//         sh '''
+//           terraform init -no-color
+//         '''
+//         }
+//       }
+//     }
   
-    stage('plan') {
-      agent {
-        docker {
-          image 'hashicorp/terraform:1.11.4'
-          args "--entrypoint= --add-host minio:${env.MINIO_URL} --add-host xen-orchestra:${env.XOA_IP}"
-        }
-      }
-      steps {
-        dir('terraform'){
-        sh '''
-          terraform plan -no-color
-        '''
-        }
-      }
-      when {
-        expression {
-          params.CREATE_OR_DESTROY == "Create"
-        }
-      }
-    }
+//     stage('plan') {
+//       agent {
+//         docker {
+//           image 'hashicorp/terraform:1.11.4'
+//           args "--entrypoint= --add-host minio:${env.MINIO_URL} --add-host xen-orchestra:${env.XOA_IP}"
+//         }
+//       }
+//       steps {
+//         dir('terraform'){
+//         sh '''
+//           terraform plan -no-color
+//         '''
+//         }
+//       }
+//       when {
+//         expression {
+//           params.CREATE_OR_DESTROY == "Create"
+//         }
+//       }
+//     }
 
-    stage('apply') {
-      agent {
-        docker {
-          image 'hashicorp/terraform:1.11.4'
-          args "--entrypoint= --add-host minio:${env.MINIO_URL} --add-host xen-orchestra:${env.XOA_IP}"
-        }
-      }
-      steps {
-        dir('terraform'){
-        sh '''
-          terraform apply -no-color -auto-approve
-        '''
-        }
-      }
-      when {
-        expression {
-          params.CREATE_OR_DESTROY == "Create"
-        }
-      }
-    }
+//     stage('apply') {
+//       agent {
+//         docker {
+//           image 'hashicorp/terraform:1.11.4'
+//           args "--entrypoint= --add-host minio:${env.MINIO_URL} --add-host xen-orchestra:${env.XOA_IP}"
+//         }
+//       }
+//       steps {
+//         dir('terraform'){
+//         sh '''
+//           terraform apply -no-color -auto-approve
+//         '''
+//         }
+//       }
+//       when {
+//         expression {
+//           params.CREATE_OR_DESTROY == "Create"
+//         }
+//       }
+//     }
 
-    // stage('kubespray') {
-    //   agent {
-    //     docker {
-    //       image 'quay.io/kubespray/kubespray:v2.26.0'
-    //       args '--entrypoint="" -u root'
-    //     }
-    //   }
-    //   steps {
-    //     dir('terraform') {
-    //       sh '''
-    //         export ANSIBLE_ROLES_PATH="$ANSIBLE_ROLES_PATH:/kubespray/roles"
-    //         export ANSIBLE_HOST_KEY_CHECKING="False"
+//     // stage('kubespray') {
+//     //   agent {
+//     //     docker {
+//     //       image 'quay.io/kubespray/kubespray:v2.26.0'
+//     //       args '--entrypoint="" -u root'
+//     //     }
+//     //   }
+//     //   steps {
+//     //     dir('terraform') {
+//     //       sh '''
+//     //         export ANSIBLE_ROLES_PATH="$ANSIBLE_ROLES_PATH:/kubespray/roles"
+//     //         export ANSIBLE_HOST_KEY_CHECKING="False"
 
-    //         ansible-playbook \
-    //           --become \
-    //           --inventory inventory.ini \
-    //           --extra-vars "kube_network_plugin=flannel" \
-    //           --private-key id_ed25519 \
-    //           /kubespray/cluster.yml
-    //       '''
-    //     }
-    //   }
-    //   when {
-    //     expression {
-    //       params.CREATE_OR_DESTROY == "Create"
-    //     }
-    //   }
-    // }
+//     //         ansible-playbook \
+//     //           --become \
+//     //           --inventory inventory.ini \
+//     //           --extra-vars "kube_network_plugin=flannel" \
+//     //           --private-key id_ed25519 \
+//     //           /kubespray/cluster.yml
+//     //       '''
+//     //     }
+//     //   }
+//     //   when {
+//     //     expression {
+//     //       params.CREATE_OR_DESTROY == "Create"
+//     //     }
+//     //   }
+//     // }
 
-    stage('destroy') {
-      agent {
-        docker {
-          image 'hashicorp/terraform:1.11.4'
-          args "--entrypoint= --add-host minio:${env.MINIO_URL} --add-host xen-orchestra:${env.XOA_IP}"
-        }
-      }
-      steps {
-        dir('terraform') {
-          sh '''
-            terraform apply -destroy -no-color -auto-approve
-          '''
-        }
-      }
-      when {
-        expression {
-          params.CREATE_OR_DESTROY == "Destroy"
-        }
-      }
-    }
+//     stage('destroy') {
+//       agent {
+//         docker {
+//           image 'hashicorp/terraform:1.11.4'
+//           args "--entrypoint= --add-host minio:${env.MINIO_URL} --add-host xen-orchestra:${env.XOA_IP}"
+//         }
+//       }
+//       steps {
+//         dir('terraform') {
+//           sh '''
+//             terraform apply -destroy -no-color -auto-approve
+//           '''
+//         }
+//       }
+//       when {
+//         expression {
+//           params.CREATE_OR_DESTROY == "Destroy"
+//         }
+//       }
+//     }
 
-  }
+//   }
 
-}
+// }

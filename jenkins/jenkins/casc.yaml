@@ -48,11 +48,13 @@ credentials:
               scope: GLOBAL
               id: "jenkins-pub-key"
               secret: "${readFile:/certs/id_ed25519.pub}"
-              description: "Secret Text"
+              description: "SSH public key file."
           - basicSSHUserPrivateKey:
               scope: SYSTEM
               id: "jenkins-priv-key"
-              description: "SSH passphrase with private key file. Private key provided"
+              username: ""
+              passphrase: ""
+              description: "SSH private key file."
               privateKeySource:
                 directEntry:
-                  privateKey: ${SSH_PRIVATE_KEY} # Path to file loaded from Environment Variable
+                  privateKey: "${readFile:${SSH_PRIVATE_KEY}}" 
