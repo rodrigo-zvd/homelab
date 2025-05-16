@@ -8,8 +8,8 @@ jenkins:
   authorizationStrategy:
     globalMatrix:
       permissions:
-        - "Overall/Administer:admin"
-        - "Overall/Read:Authenticated Users"
+        - "USER:Overall/Administer:admin"
+        - "GROUP:Overall/Read:Authenticated Users"
   remotingSecurity:
     enabled: true
 security:
@@ -20,8 +20,6 @@ security:
 unclassified:
   location:
     url: http://localhost:8080/
-appearance:
-  themeManager: dark
 credentials:
   system:
     domainCredentials:
@@ -29,27 +27,27 @@ credentials:
           - string:
               scope: GLOBAL
               id: "xoa_user"
-              secret: "admin@admin.net"
+              secret: "${XOA_USER}"
               description: "Secret Text"
           - string:
               scope: GLOBAL
               id: "xoa_password"
-              secret: "admin"
+              secret: "${XOA_PASSWORD}"
               description: "Secret Text"
           - string:
               scope: GLOBAL
               id: "aws_access_key_id"
-              secret: "terraform"
+              secret: "${AWS_ACCESS_KEY_ID}"
               description: "Secret Text"
           - string:
               scope: GLOBAL
               id: "aws_secret_access_key"
-              secret: "terraform123"
+              secret: "${AWS_SECRET_ACCESS_KEY}"
               description: "Secret Text"
           - string:
               scope: GLOBAL
               id: "jenkins-pub-key"
-              secret: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC4R6sDKkpml8MIuwEUYjlYzFoDKFkmY+bYP2wZBNtJAl487+bQp0VLs9sAv5SHpmJ1OlZd6hQQp6eI3Spls4q2IvgejzCkwRVh8Sv1r3Rk5nB2NSPRsJuQAElpf1JCaJzF55FoY8iO7FNlpWysqZ50KVVitMUePFKEgAGIWmlFPDcICCazpyMNDgIJigLm1pED1SqEAmLrMnldUZ0DUdjYMPV4nsEjK8eTWN3ABFXq3iV0q1oBas4etvYypFbNF4bPAWhCXkVhQ4brmZWqAAUUpKF6JgFPH8zEVYPQ7XUJZfV+gBTLmWKsbslJtD2l+79NJoJuN4F2eWTYKg047jM6M8ntujjTi+Lqpoz1BQyd8g3Fe7634a4SR0J6XOjTcrKBWdNjl/NPgEBFmIfL5g2fVdSU40aIMfF5ZSRZdkPmflpouq34P85/V5dfKJSZZ6iyM3ecLliMzaxxC+/e/6eH8dDBy40W+eJPnWCFqR4GtP3xTQJxMWrmIIuWAz2XaPE= azevedo@pop-os"
+              secret: "${readFile:/certs/id_ed25519.pub}"
               description: "Secret Text"
           - basicSSHUserPrivateKey:
               scope: SYSTEM
@@ -57,4 +55,4 @@ credentials:
               description: "SSH passphrase with private key file. Private key provided"
               privateKeySource:
                 directEntry:
-                  privateKey: "${readFile:~/.ssh/id_rsa}" # Path to file loaded from Environment Variable
+                  privateKey: "${readFile:/certs/id_ed25519}" # Path to file loaded from Environment Variable

@@ -11,6 +11,15 @@ services:
       - DOCKER_CERT_PATH=/certs/client
       - DOCKER_TLS_VERIFY=1
       - MINIO_URL=
+      - XCP_MASTER_IP=${XCP_MASTER_IP}
+      - XCP_USER=${XCP_USER}
+      - XCP_PASSWORD=${XCP_PASSWORD}
+      - XOA_USER=${XOA_USER}
+      - XOA_PASSWORD={XOA_PASSWORD}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - SSH_PUBLIC_KEY=/certs/id_ed25519.pub
+      - SSH_PRIVATE_KEY=/certs/id_ed25519
     networks:
       - docker
     ports:
@@ -20,6 +29,8 @@ services:
     volumes:
       - jenkins-data:/var/jenkins_home
       - jenkins-docker-certs:/certs/client:ro
+      - ${SSH_PUBLIC_KEY}:/certs/id_ed25519.pub:ro
+      - ${SSH_PRIVATE_KEY}:/certs/id_ed25519:ro
 
   dind:
     environment:
@@ -56,12 +67,10 @@ services:
           - minio
     volumes:
       - minio_data:/data
-      - ./minio/create-user.sh:/docker-entrypoint-init.d/create-user.sh
     environment:
       - MINIO_ROOT_USER=root
       - MINIO_ROOT_PASSWORD=rootroot
       - MINIO_DEFAULT_BUCKETS=root
-    # entrypoint: /bin/sh /docker-entrypoint-init.d/create-user.sh 
 
   xen-orchestra:
     build:

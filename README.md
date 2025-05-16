@@ -1,1 +1,6 @@
 # homelab
+
+docker compose up -d \
+    --env XCP_MASTER_IP=${XCP_MASTER_IP} --env XCP_USER=${XCP_USER} --env XCP_PASSWORD=$ {XCP_PASSWORD} \
+    --env XOA_USER=${XOA_USER} --env XOA_PASSWORD=${XOA_PASSWORD} \
+    --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
