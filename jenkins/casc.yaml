@@ -64,22 +64,22 @@ credentials:
                   privateKey: "${readFile:${SSH_PRIVATE_KEY}}" 
 jobs:
   - script: >
-      folder('testjobs')
+      folder('Kubernetes Cluster IaC')
   - script: >
-      pipelineJob('testjobs/default-agent') {
+      pipelineJob('Kubernetes Cluster IaC/Cluster Xen Orchestra') {
         definition {
-          cps {
-            script("""\
-              pipeline {
-                agent any
-                stages {
-                  stage ('test') {
-                    steps {
-                      echo "hello"
+            cpsScm {
+                scm {
+                    git {
+                        remote {
+                            url('https://github.com/rodrigo-zvd/homelab.git')
+                            // Para repositórios privados, adicione:
+                            // credentials('seu-id-de-credencial')
+                        }
+                        branch('*/main')
                     }
-                  }
                 }
-              }""".stripIndent())
-          }
+                scriptPath('Jenkinsfile')
+            }
         }
       }

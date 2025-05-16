@@ -131,7 +131,7 @@ pipeline {
       steps {
         dir('terraform'){
         sh '''
-          terraform apply -no-color -auto-approve -var="s3_access_key=${AWS_ACCESS_KEY_ID}"
+          terraform apply -no-color -auto-approve
         '''
         }
       }
