@@ -19,8 +19,8 @@ terraform {
       s3 = "http://minio:9000"
     }
 
-    access_key="terraform"           # Access and secret keys
-    secret_key="terraform123"
+    access_key="${AWS_ACCESS_KEY_ID}"           # Access and secret keys
+    secret_key="${AWS_SECRET_ACCESS_KEY}"
 
     skip_credentials_validation = true
     skip_metadata_api_check = true
