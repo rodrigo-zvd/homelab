@@ -115,6 +115,28 @@ services:
         options:
             max-size: "1M"
             max-file: "2"
+    healthcheck:
+      test: ["CMD", "sh", "-c", "/healthcheck.sh"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+  xo-cli:
+    build:
+      context: xen-orchestra/
+    depends_on:
+      xen-orchestra:
+        condition: service_healthy
+    networks:
+      docker: null
+    volumes:
+      - ./xen-orchestra/add-xcp-host.sh:/add-xcp-host.sh:ro
+    environment:
+      - XCP_MASTER_IP=${XCP_MASTER_IP}
+      - XCP_USER=${XCP_USER}
+      - XCP_PASSWORD=${XCP_PASSWORD}
+      - XOA_USER=${XOA_USER}
+      - XOA_PASSWORD=${XOA_PASSWORD}
+    entrypoint: ["/bin/bash", "/add-xcp-host.sh"]
 
 networks:
   docker:

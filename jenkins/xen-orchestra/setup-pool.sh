@@ -1,2 +1,0 @@
-docker exec -it jenkins-xen-orchestra-1 xo-cli register --allowUnauthorized http://localhost admin@admin.net admin 
-docker exec -it jenkins-xen-orchestra-1 xo-cli server.add host=${XCP_MASTER_IP} username="${XCP_USER}" password="${XCP_PASSWORD}" autoConnect=true allowUnauthorized=true
