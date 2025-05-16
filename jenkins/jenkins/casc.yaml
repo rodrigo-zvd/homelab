@@ -54,7 +54,7 @@ credentials:
               id: "jenkins-priv-key"
               username: ""
               passphrase: ""
-              description: "SSH private key file."
+              description: "SSH private key file"
               privateKeySource:
                 directEntry:
                   privateKey: "${readFile:${SSH_PRIVATE_KEY}}" 
