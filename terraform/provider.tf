@@ -19,7 +19,8 @@ terraform {
       s3 = "http://minio:9000"
     }
 
-    access_key="${var.s3_access_key}"
+    # access_key="${var.s3_access_key}"
+    access_key="terraform"
     secret_key="terraform123"
     # secret_key="${var.s3_secret_key}"
 

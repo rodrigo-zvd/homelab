@@ -3,7 +3,7 @@ jenkins:
     local:
       allowsSignup: false
       users:
-       - id: admin
+       - id: ${JENKINS_ADMIN_USER}
          password: ${JENKINS_ADMIN_PASSWORD}
   authorizationStrategy:
     globalMatrix:
@@ -20,6 +20,10 @@ security:
 unclassified:
   location:
     url: http://localhost:8080/
+appearance:
+  themeManager:
+    disableUserThemes: true
+    theme: "dark"
 credentials:
   system:
     domainCredentials:
@@ -58,3 +62,24 @@ credentials:
               privateKeySource:
                 directEntry:
                   privateKey: "${readFile:${SSH_PRIVATE_KEY}}" 
+jobs:
+  - script: >
+      folder('testjobs')
+  - script: >
+      pipelineJob('testjobs/default-agent') {
+        definition {
+          cps {
+            script("""\
+              pipeline {
+                agent any
+                stages {
+                  stage ('test') {
+                    steps {
+                      echo "hello"
+                    }
+                  }
+                }
+              }""".stripIndent())
+          }
+        }
+      }
