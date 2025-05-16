@@ -50,7 +50,7 @@ credentials:
               secret: "${readFile:/certs/id_ed25519.pub}"
               description: "SSH public key file."
           - basicSSHUserPrivateKey:
-              scope: SYSTEM
+              scope: GLOBAL
               id: "jenkins-priv-key"
               username: ""
               passphrase: ""
