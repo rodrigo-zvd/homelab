@@ -65,7 +65,7 @@ pipeline {
             sshUserPrivateKey(credentialsId: 'jenkins-priv-key', keyFileVariable: 'JENKINS_PRIV_KEY')
             ]) {
             sh '''
-              cp "$JENKINS_PRIV_KEY" id_ed25519
+              cp "$JENKINS_PRIV_KEY" > id_ed25519
               echo "$JENKINS_PUB_KEY" > id_ed25519.pub
             '''
             }
@@ -104,7 +104,7 @@ pipeline {
       agent {
         docker {
           image 'hashicorp/terraform:1.11.4'
-          args "--entrypoint= --add-host minio:${env.MINIO_URL} --add-host xen-orchestra:${env.XOA_IP} --env XOA_USER=${XOA_USER} --env XOA_PASSWORD=${XOA_PASSWORD}"
+          args "--entrypoint= --add-host minio:${env.MINIO_URL} --add-host xen-orchestra:${env.XOA_IP}"
         }
       }
       steps {
