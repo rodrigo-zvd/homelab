@@ -27,12 +27,12 @@ credentials:
           - string:
               scope: GLOBAL
               id: "xoa_user"
-              secret: "${XOA_USER}"
+              secret: "admin@admin.net"
               description: "Secret Text"
           - string:
               scope: GLOBAL
               id: "xoa_password"
-              secret: "${XOA_PASSWORD}"
+              secret: "admin"
               description: "Secret Text"
           - string:
               scope: GLOBAL
