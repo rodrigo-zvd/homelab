@@ -11,7 +11,7 @@ services:
       - DOCKER_HOST=tcp://docker:2376
       - DOCKER_CERT_PATH=/certs/client
       - DOCKER_TLS_VERIFY=1
-      - MINIO_URL=
+      # - MINIO_URL=
       - XCP_MASTER_IP=${XCP_MASTER_IP}
       - XCP_USER=${XCP_USER}
       - XCP_PASSWORD=${XCP_PASSWORD}
@@ -51,7 +51,7 @@ services:
       - jenkins-data:/var/jenkins_home
       - docker-cache:/var/lib/docker
   minio:
-    image: quay.io/minio/minio:RELEASE.2025-04-22T22-12-26Z # Mantenha sua versão ou atualize conforme necessário
+    image: quay.io/minio/minio:RELEASE.2025-04-22T22-12-26Z 
     restart: always
     command:
       - server
