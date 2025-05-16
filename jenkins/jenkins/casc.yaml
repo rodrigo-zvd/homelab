@@ -9,7 +9,7 @@ jenkins:
     globalMatrix:
       permissions:
         - "USER:Overall/Administer:admin"
-        - "GROUP:Overall/Read:Authenticated Users"
+        - "GROUP:Overall/Read:authenticated"
   remotingSecurity:
     enabled: true
 security:
@@ -55,4 +55,4 @@ credentials:
               description: "SSH passphrase with private key file. Private key provided"
               privateKeySource:
                 directEntry:
-                  privateKey: "${readFile:/certs/id_ed25519}" # Path to file loaded from Environment Variable
+                  privateKey: ${SSH_PRIVATE_KEY} # Path to file loaded from Environment Variable
