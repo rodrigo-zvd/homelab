@@ -54,11 +54,11 @@ pipeline {
     }
     
     stage('authentication') {
-      agent {
-        docker {
-          image 'alpine'
-        }
-      }
+      // agent {
+      //   docker {
+      //     image 'alpine'
+      //   }
+      // }
       steps {
         dir('terraform') {
           withCredentials([
