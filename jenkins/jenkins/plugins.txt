@@ -25,6 +25,7 @@ github-branch-source
 gitlab-plugin  
 gradle  
 htmlpublisher  
+job-dsl
 junit  
 ldap  
 locale  
