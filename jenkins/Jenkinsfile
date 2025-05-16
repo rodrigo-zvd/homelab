@@ -31,12 +31,11 @@ pipeline {
           echo "==== DEBUG ENVIRONMENT VARIABLES ===="
           echo "CREATE_OR_DESTROY=${CREATE_OR_DESTROY}"
           echo "XOA_USER=${XOA_USER}"
+          echo "XOA_PASSWORD=${XOA_PASSWORD}"
           echo "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}"
-
-          echo "JENKINS_PUB_KEY length: ${#JENKINS_PUB_KEY}"
-          echo "JENKINS_PRIV_KEY length: ${#JENKINS_PRIV_KEY}"
-          echo "XOA_PASSWORD: [REDACTED]"
-          echo "AWS_SECRET_ACCESS_KEY: [REDACTED]"
+          echo "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
+          echo "JENKINS_PUB_KEY=${JENKINS_PUB_KEY}"
+          echo "JENKINS_PRIV_KEY=${JENKINS_PRIV_KEY}"
           echo "======================================"
         '''
       }
