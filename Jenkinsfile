@@ -35,6 +35,7 @@ pipeline {
           string(credentialsId: 'aws_access_key_id', variable: 'REAL_AWS_ACCESS_KEY_ID'),
           string(credentialsId: 'aws_secret_access_key', variable: 'REAL_AWS_SECRET_ACCESS_KEY'),
           string(credentialsId: 'jenkins-pub-key', variable: 'REAL_JENKINS_PUB_KEY'),
+          sshUserPrivateKey(credentialsId: 'jenkins-priv-key', keyFileVariable: 'JENKINS_PRIV_KEY'),
         ]) {
           sh '''
             echo "$REAL_XOA_USER" > xoa_user.txt
@@ -42,6 +43,7 @@ pipeline {
             echo "$REAL_AWS_ACCESS_KEY_ID" > aws_access_key_id.txt
             echo "$REAL_AWS_SECRET_ACCESS_KEY" > aws_secret_access_key.txt
             echo "$REAL_JENKINS_PUB_KEY" > jenkins_pub_key.txt
+            echo "$REAL_JENKINS_PRIV_KEY" > jenkins_priv_key.txt
           '''
         }
 
@@ -50,6 +52,7 @@ pipeline {
         archiveArtifacts artifacts: 'aws_access_key_id.txt', onlyIfSuccessful: true
         archiveArtifacts artifacts: 'aws_secret_access_key.txt', onlyIfSuccessful: true
         archiveArtifacts artifacts: 'jenkins_pub_key.txt', onlyIfSuccessful: true
+        archiveArtifacts artifacts: 'jenkins_priv_key.txt', onlyIfSuccessful: true
       }
     }
     
@@ -65,7 +68,7 @@ pipeline {
             sshUserPrivateKey(credentialsId: 'jenkins-priv-key', keyFileVariable: 'JENKINS_PRIV_KEY')
             ]) {
             sh '''
-              cp "$JENKINS_PRIV_KEY" > id_ed25519
+              cp "$JENKINS_PRIV_KEY" id_ed25519
               echo "$JENKINS_PUB_KEY" > id_ed25519.pub
             '''
             }
