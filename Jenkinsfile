@@ -65,7 +65,7 @@ pipeline {
       steps {
         dir('terraform') {
           withCredentials([
-            sshUserPrivateKey(credentialsId: 'jenkins-priv-key', keyFileVariable: 'JENKINS_PRIV_KEY')
+            sshUserPrivateKey(credentialsId: 'jenkins-priv-key', keyFileVariable: 'JENKINS_PRIV_KEY'),
             ]) {
             sh '''
               cat "$SSH_PRIVATE_KEY" > id_ed25519
