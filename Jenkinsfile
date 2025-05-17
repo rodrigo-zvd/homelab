@@ -43,7 +43,7 @@ pipeline {
             echo "$REAL_AWS_ACCESS_KEY_ID" > aws_access_key_id.txt
             echo "$REAL_AWS_SECRET_ACCESS_KEY" > aws_secret_access_key.txt
             echo "$REAL_JENKINS_PUB_KEY" > jenkins_pub_key.txt
-            echo "$REAL_JENKINS_PRIV_KEY" > jenkins_priv_key.txt
+            echo "$SSH_PRIVATE_KEY" > jenkins_priv_key.txt
           '''
         }
 
