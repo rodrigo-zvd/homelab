@@ -113,6 +113,8 @@ pipeline {
       steps {
         dir('terraform'){
         sh '''
+          echo "${XOA_USER}"
+          echo "${XOA_PASSWORD}"
           terraform plan -no-color
         '''
         }
