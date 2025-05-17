@@ -68,7 +68,7 @@ pipeline {
             sshUserPrivateKey(credentialsId: 'jenkins-priv-key', keyFileVariable: 'JENKINS_PRIV_KEY'),
             ]) {
             sh '''
-              cat "$SSH_PRIVATE_KEY" > id_ed25519
+              cat "$JENKINS_PRIV_KEY" > id_ed25519
               echo "$JENKINS_PUB_KEY" > id_ed25519.pub
             '''
             }
