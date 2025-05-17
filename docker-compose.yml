@@ -129,14 +129,14 @@ services:
     networks:
       docker: null
     volumes:
-      - ./xen-orchestra/add-xcp-host.sh:/add-xcp-host.sh:ro
+      - ./xen-orchestra/xo_setup.sh:/xo_setup.sh:ro
     environment:
       - XCP_MASTER_IP=${XCP_MASTER_IP}
       - XCP_USER=${XCP_USER}
       - XCP_PASSWORD=${XCP_PASSWORD}
       - XOA_USER=${XOA_USER}
       - XOA_PASSWORD=${XOA_PASSWORD}
-    entrypoint: ["/bin/bash", "/add-xcp-host.sh"]
+    entrypoint: ["/bin/bash", "/xo_setup.sh"]
 
 networks:
   docker:
