@@ -61,7 +61,7 @@ credentials:
               description: "SSH private key file"
               privateKeySource:
                 directEntry:
-                  privateKey: "${readFile:${SSH_PRIVATE_KEY}}" 
+                  privateKey: "${SSH_PRIVATE_KEY}}" 
 jobs:
   - script: >
       folder('Kubernetes Cluster IaC')
