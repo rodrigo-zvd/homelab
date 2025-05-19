@@ -113,8 +113,8 @@ pipeline {
       steps {
         dir('terraform'){
           withCredentials([
-            string(credentialsId: 'xoa_user', keyFileVariable: 'XOA_USER'),
-            string(credentialsId: 'xoa_password', keyFileVariable: 'XOA_PASSWORD'),
+            string(credentialsId: 'xoa_user', variable: 'XOA_USER'),
+            string(credentialsId: 'xoa_password', variable: 'XOA_PASSWORD'),
             ]) {
               sh '''
                 echo "${XOA_USER}"
