@@ -64,9 +64,9 @@ credentials:
                   privateKey: "${SSH_PRIVATE_KEY}}" 
 jobs:
   - script: >
-      folder('Kubernetes Cluster IaC')
+      folder('Kubernetes-IaC')
   - script: >
-      pipelineJob('Kubernetes Cluster IaC/Cluster Xen Orchestra') {
+      pipelineJob('Kubernetes-IaC/Cluster-Xen-Orchestra') {
         definition {
             cpsScm {
                 scm {
