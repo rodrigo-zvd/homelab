@@ -2,7 +2,7 @@ variable "xoa_url" {
   description = "URL for Xen Orchestra"
   type        = string
   sensitive   = true
-  default     = "ws://localhost:8081"
+  default     = "ws://xen-orchestra:80"
 }
 
 variable "xoa_username" {
