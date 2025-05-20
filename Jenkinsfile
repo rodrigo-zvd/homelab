@@ -68,12 +68,16 @@ pipeline {
             sshUserPrivateKey(credentialsId: 'jenkins-priv-key', keyFileVariable: 'JENKINS_PRIV_KEY'),
             string(credentialsId: 'xoa_user', variable: 'TF_XOA_USER'),
             string(credentialsId: 'xoa_password', variable: 'TF_XOA_PASSWORD'),
+            string(credentialsId: 'aws_access_key_id', variable: 'TF_MINIO_ACCESS_KEY_ID'),
+            string(credentialsId: 'aws_secret_access_key', variable: 'TF_MINIO_SECRET_ACCESS_KEY'),
             ]) {
             sh '''
               cat "$JENKINS_PRIV_KEY" > id_ed25519
               echo "$JENKINS_PUB_KEY" > id_ed25519.pub
               echo "xoa_username = \\"$TF_XOA_USER\\"" > terraform.tfvars
               echo "xoa_password = \\"$TF_XOA_PASSWORD\\"" >> terraform.tfvars
+              echo "minio_access_key = \\"$TF_MINIO_ACCESS_KEY_ID\\"" >> terraform.tfvars
+              echo "minio_secret_key = \\"$TF_MINIO_SECRET_ACCESS_KEY\\"" >> terraform.tfvars
             '''
             }
         }
