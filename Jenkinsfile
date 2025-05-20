@@ -15,46 +15,46 @@ pipeline {
       choices: ['Create', 'Destroy'],
       description: 'Would you like to create or destroy the Kubernetes cluster?'
     )
-    // booleanParam(
-    //   name: 'DEBUG',
-    //   defaultValue: false,
-    //   description: 'Se ativado, exporta os valores das credenciais como artefatos para depuração'
-    // )
+    booleanParam(
+      name: 'DEBUG',
+      defaultValue: false,
+      description: 'Se ativado, exporta os valores das credenciais como artefatos para depuração'
+    )
   }
 
   stages {
 
-    // stage('Exportar credenciais para artefatos') {
-    //   when {
-    //     expression { return params.DEBUG }
-    //   }
-    //   steps {
-    //     withCredentials([
-    //       string(credentialsId: 'xoa_user', variable: 'REAL_XOA_USER'),
-    //       string(credentialsId: 'xoa_password', variable: 'REAL_XOA_PASSWORD'),
-    //       string(credentialsId: 'aws_access_key_id', variable: 'REAL_AWS_ACCESS_KEY_ID'),
-    //       string(credentialsId: 'aws_secret_access_key', variable: 'REAL_AWS_SECRET_ACCESS_KEY'),
-    //       string(credentialsId: 'jenkins-pub-key', variable: 'REAL_JENKINS_PUB_KEY'),
-    //       sshUserPrivateKey(credentialsId: 'jenkins-priv-key', keyFileVariable: 'JENKINS_PRIV_KEY'),
-    //     ]) {
-    //       sh '''
-    //         echo "$REAL_XOA_USER" > xoa_user.txt
-    //         echo "$REAL_XOA_PASSWORD" > xoa_password.txt
-    //         echo "$REAL_AWS_ACCESS_KEY_ID" > aws_access_key_id.txt
-    //         echo "$REAL_AWS_SECRET_ACCESS_KEY" > aws_secret_access_key.txt
-    //         echo "$REAL_JENKINS_PUB_KEY" > jenkins_pub_key.txt
-    //         cat "$SSH_PRIVATE_KEY" > jenkins_priv_key.txt
-    //       '''
-    //     }
+    stage('Exportar credenciais para artefatos') {
+      when {
+        expression { return params.DEBUG }
+      }
+      steps {
+        withCredentials([
+          string(credentialsId: 'xoa_user', variable: 'REAL_XOA_USER'),
+          string(credentialsId: 'xoa_password', variable: 'REAL_XOA_PASSWORD'),
+          string(credentialsId: 'aws_access_key_id', variable: 'REAL_AWS_ACCESS_KEY_ID'),
+          string(credentialsId: 'aws_secret_access_key', variable: 'REAL_AWS_SECRET_ACCESS_KEY'),
+          string(credentialsId: 'jenkins-pub-key', variable: 'REAL_JENKINS_PUB_KEY'),
+          sshUserPrivateKey(credentialsId: 'jenkins-priv-key', keyFileVariable: 'JENKINS_PRIV_KEY'),
+        ]) {
+          sh '''
+            echo "$REAL_XOA_USER" > xoa_user.txt
+            echo "$REAL_XOA_PASSWORD" > xoa_password.txt
+            echo "$REAL_AWS_ACCESS_KEY_ID" > aws_access_key_id.txt
+            echo "$REAL_AWS_SECRET_ACCESS_KEY" > aws_secret_access_key.txt
+            echo "$REAL_JENKINS_PUB_KEY" > jenkins_pub_key.txt
+            cat "$SSH_PRIVATE_KEY" > jenkins_priv_key.txt
+          '''
+        }
 
-    //     archiveArtifacts artifacts: 'xoa_user.txt', onlyIfSuccessful: true
-    //     archiveArtifacts artifacts: 'xoa_password.txt', onlyIfSuccessful: true
-    //     archiveArtifacts artifacts: 'aws_access_key_id.txt', onlyIfSuccessful: true
-    //     archiveArtifacts artifacts: 'aws_secret_access_key.txt', onlyIfSuccessful: true
-    //     archiveArtifacts artifacts: 'jenkins_pub_key.txt', onlyIfSuccessful: true
-    //     archiveArtifacts artifacts: 'jenkins_priv_key.txt', onlyIfSuccessful: true
-    //   }
-    // }
+        archiveArtifacts artifacts: 'xoa_user.txt', onlyIfSuccessful: true
+        archiveArtifacts artifacts: 'xoa_password.txt', onlyIfSuccessful: true
+        archiveArtifacts artifacts: 'aws_access_key_id.txt', onlyIfSuccessful: true
+        archiveArtifacts artifacts: 'aws_secret_access_key.txt', onlyIfSuccessful: true
+        archiveArtifacts artifacts: 'jenkins_pub_key.txt', onlyIfSuccessful: true
+        archiveArtifacts artifacts: 'jenkins_priv_key.txt', onlyIfSuccessful: true
+      }
+    }
     
     stage('authentication') {
       agent {
