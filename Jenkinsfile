@@ -66,14 +66,14 @@ pipeline {
         dir('terraform') {
           withCredentials([
             sshUserPrivateKey(credentialsId: 'jenkins-priv-key', keyFileVariable: 'JENKINS_PRIV_KEY'),
-            string(credentialsId: 'xoa_user', variable: 'XOA_USER'),
-            string(credentialsId: 'xoa_password', variable: 'XOA_PASSWORD'),
+            string(credentialsId: 'xoa_user', variable: 'TF_XOA_USER'),
+            string(credentialsId: 'xoa_password', variable: 'TF_XOA_PASSWORD'),
             ]) {
             sh '''
               cat "$JENKINS_PRIV_KEY" > id_ed25519
               echo "$JENKINS_PUB_KEY" > id_ed25519.pub
-              echo "xoa_username = $XOA_USER" > terraform.tfvars
-              echo "xoa_password = $XOA_PASSWORD" >> terraform.tfvars
+              echo "xoa_username = $TF_XOA_USER" > terraform.tfvars
+              echo "xoa_password = $TF_XOA_PASSWORD" >> terraform.tfvars
             '''
             }
         }
