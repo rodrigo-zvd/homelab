@@ -16,7 +16,7 @@ terraform {
     region = "placeholder"
 
     endpoints = {
-      s3 = "http://localhost:9000"
+      s3 = "http://minio:9000"
     }
 
     access_key="terraform"
