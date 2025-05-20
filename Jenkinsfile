@@ -66,8 +66,8 @@ pipeline {
         dir('terraform') {
           withCredentials([
             sshUserPrivateKey(credentialsId: 'jenkins-priv-key', keyFileVariable: 'JENKINS_PRIV_KEY'),
-            // string(credentialsId: 'xoa_user', variable: 'XOA_USER'),
-            // string(credentialsId: 'xoa_password', variable: 'XOA_PASSWORD'),
+            string(credentialsId: 'xoa_user', variable: 'XOA_USER'),
+            string(credentialsId: 'xoa_password', variable: 'XOA_PASSWORD'),
             ]) {
             sh '''
               cat "$JENKINS_PRIV_KEY" > id_ed25519
