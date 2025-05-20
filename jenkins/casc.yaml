@@ -63,10 +63,11 @@ credentials:
                 directEntry:
                   privateKey: "${SSH_PRIVATE_KEY}}" 
 jobs:
+  # - script: >
+  #     folder('Kubernetes-IaC')
   - script: >
-      folder('Kubernetes-IaC')
-  - script: >
-      pipelineJob('Kubernetes-IaC/Cluster-Xen-Orchestra') {
+      # pipelineJob('Kubernetes-IaC/Cluster-Xen-Orchestra') {
+      pipelineJob('test') {
         definition {
             cpsScm {
                 scm {
