@@ -72,8 +72,8 @@ pipeline {
             sh '''
               cat "$JENKINS_PRIV_KEY" > id_ed25519
               echo "$JENKINS_PUB_KEY" > id_ed25519.pub
-              echo "xoa_username = $TF_XOA_USER" > terraform.tfvars
-              echo "xoa_password = $TF_XOA_PASSWORD" >> terraform.tfvars
+              echo "xoa_username = \\"$TF_XOA_USER\\"" > terraform.tfvars
+              echo "xoa_password = \\"$TF_XOA_PASSWORD\\"" >> terraform.tfvars
             '''
             }
         }

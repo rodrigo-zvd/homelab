@@ -12,31 +12,31 @@ terraform {
   }
   backend "s3" {
     bucket = "terraform-state"
-    key = "terraform.state"
+    key    = "terraform.state"
     region = "placeholder"
 
     endpoints = {
       s3 = "http://minio:9000"
     }
 
-    access_key="terraform"
-    secret_key="terraform123"
+    access_key = "terraform"
+    secret_key = "terraform123"
 
     skip_credentials_validation = true
-    skip_metadata_api_check = true
-    skip_region_validation = true
-    skip_requesting_account_id = true
-    use_path_style = true
-    
+    skip_metadata_api_check     = true
+    skip_region_validation      = true
+    skip_requesting_account_id  = true
+    use_path_style              = true
+
   }
 }
 
 # Configure the XenServer Provider
 provider "xenorchestra" {
   # Must be ws or wss
-  url      = var.xoa_url # Or set XOA_URL environment variable
-  username = var.xoa_username    # Or set XOA_USER environment variable
-  password = var.xoa_password               # Or set XOA_PASSWORD environment variable
+  url      = var.xoa_url      # Or set XOA_URL environment variable
+  username = var.xoa_username # Or set XOA_USER environment variable
+  password = var.xoa_password # Or set XOA_PASSWORD environment variable
 
   # This is false by default and
   # will disable ssl verification if true.
