@@ -112,10 +112,6 @@ pipeline {
       }
       steps {
         dir('terraform'){
-          withCredentials([
-            string(credentialsId: 'xoa_user', variable: 'XOA_USER'),
-            string(credentialsId: 'xoa_password', variable: 'XOA_PASSWORD'),
-          ]) {
               sh '''
                 terraform plan -no-color
               '''
