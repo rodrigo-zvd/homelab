@@ -123,7 +123,6 @@ pipeline {
         }
       }
     }
-    }
 
     stage('apply') {
       agent {
@@ -196,4 +195,5 @@ pipeline {
       }
     }
 
-} 
+}
+}
