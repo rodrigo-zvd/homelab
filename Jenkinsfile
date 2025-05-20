@@ -117,7 +117,7 @@ pipeline {
       steps {
         dir('terraform'){
               sh '''
-                terraform plan -no-color -var-file="terraform.tfvars"
+                terraform plan -no-color"
               '''
         }
       }
