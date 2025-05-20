@@ -16,7 +16,7 @@ terraform {
     region = "placeholder"
 
     endpoints = {
-      s3 = "http://minio:9000"
+      s3 = "http://localhost:9000"
     }
 
     access_key="terraform"
@@ -34,9 +34,9 @@ terraform {
 # Configure the XenServer Provider
 provider "xenorchestra" {
   # Must be ws or wss
-  url      = "ws://xen-orchestra:80" # Or set XOA_URL environment variable
-  username = "admin"    # Or set XOA_USER environment variable
-  password = "admin"               # Or set XOA_PASSWORD environment variable
+  url      = var.xoa_url # Or set XOA_URL environment variable
+  username = var.xoa_username    # Or set XOA_USER environment variable
+  password = var.xoa_password               # Or set XOA_PASSWORD environment variable
 
   # This is false by default and
   # will disable ssl verification if true.
