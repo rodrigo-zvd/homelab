@@ -94,11 +94,11 @@ pipeline {
         }
       }
     }
-    
+
     stage('Render Terraform Configs') {
       agent {
         docker {
-          image 'hairyhenderson/gomplate:latest'
+          image 'hairyhenderson/gomplate:v4.3-alpine'
           args '-v $PWD:/work'
         }
       }
