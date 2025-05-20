@@ -105,8 +105,8 @@ pipeline {
       environment {
         MINIO_ACCESS_KEY = credentials('aws_secret_access_key')
         MINIO_SECRET_KEY = credentials('minio-secret-key')
-        MINIO_ENDPOINT   = credentials('minio-endpoint')
-        XOA_URL          = credentials('xoa_url')
+        // MINIO_ENDPOINT   = credentials('minio-endpoint')
+        // XOA_URL          = credentials('xoa_url')
         XOA_USERNAME     = credentials('xoa_user')
         XOA_PASSWORD     = credentials('xoa_password')
       }
