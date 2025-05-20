@@ -115,16 +115,11 @@ pipeline {
           withCredentials([
             string(credentialsId: 'xoa_user', variable: 'XOA_USER'),
             string(credentialsId: 'xoa_password', variable: 'XOA_PASSWORD'),
-            ]) {
+          ]) {
               sh '''
-                echo "$XOA_USER" > xoa_user.txt
-                echo "$XOA_PASSWORD" > xoa_password.txt
                 terraform plan -no-color
               '''
         }
-
-        archiveArtifacts artifacts: 'xoa_user.txt', onlyIfSuccessful: true
-        archiveArtifacts artifacts: 'xoa_password.txt', onlyIfSuccessful: true
       }
       when {
         expression {
