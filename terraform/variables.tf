@@ -25,3 +25,17 @@ variable "minio_url" {
   sensitive   = true
   default     = "http://localhost:9000"
 }
+
+variable "s3_access_key" {
+  description = "Access Key S3"
+  type        = string
+  sensitive   = true
+  default     = "terraform"
+}
+
+variable "s3_secret_key" {
+  description = "Secret Key S3"
+  type        = string
+  sensitive   = true
+  default     = "terraform123"
+}
