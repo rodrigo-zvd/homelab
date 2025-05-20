@@ -84,6 +84,43 @@ pipeline {
       }
     }
 
+    stage('Render Terraform Configs') {
+      steps {
+        withCredentials([
+          string(credentialsId: 'minio-access-key', variable: 'MINIO_ACCESS_KEY'),
+          string(credentialsId: 'minio-secret-key', variable: 'MINIO_SECRET_KEY'),
+          string(credentialsId: 'minio-endpoint',   variable: 'MINIO_ENDPOINT'),
+          string(credentialsId: 'xoa_url',          variable: 'XOA_URL'),
+          string(credentialsId: 'xoa_user',         variable: 'XOA_USERNAME'),
+          string(credentialsId: 'xoa_password',     variable: 'XOA_PASSWORD')
+        ]) {
+          dir('terraform') {
+            sh '''
+              docker run --rm \
+                -v "$PWD:/work" \
+                -e MINIO_ACCESS_KEY \
+                -e MINIO_SECRET_KEY \
+                -e MINIO_ENDPOINT \
+                -e XOA_URL \
+                -e XOA_USERNAME \
+                -e XOA_PASSWORD \
+                hairyhenderson/gomplate \
+                -f /work/backend.hcl.tpl -o /work/backend.hcl
+
+              docker run --rm \
+                -v "$PWD:/work" \
+                -e XOA_URL \
+                -e XOA_USERNAME \
+                -e XOA_PASSWORD \
+                hairyhenderson/gomplate \
+                -f /work/terraform.tfvars.tpl -o /work/terraform.tfvars
+            '''
+          }
+        }
+    }
+  }
+
+
     stage('setup terraform endpoints') {
       steps {
         script {
