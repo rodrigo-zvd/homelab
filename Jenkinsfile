@@ -84,6 +84,17 @@ pipeline {
       }
     }
 
+    stage('setup terraform endpoints') {
+      steps {
+        script {
+          def minioIp = sh(script: "getent hosts minio | awk '{ print \$1 }'", returnStdout: true).trim()
+          env.MINIO_URL = minioIp
+          def xoaIp = sh(script: "getent hosts xen-orchestra | awk '{ print \$1 }'", returnStdout: true).trim()
+          env.XOA_IP = xoaIp
+        }
+      }
+    }
+    
     stage('Render Terraform Configs') {
       agent {
         docker {
@@ -92,7 +103,7 @@ pipeline {
         }
       }
       environment {
-        MINIO_ACCESS_KEY = credentials('minio-access-key')
+        MINIO_ACCESS_KEY = credentials('aws_secret_access_key')
         MINIO_SECRET_KEY = credentials('minio-secret-key')
         MINIO_ENDPOINT   = credentials('minio-endpoint')
         XOA_URL          = credentials('xoa_url')
@@ -111,16 +122,6 @@ pipeline {
 
 
 
-    stage('setup terraform endpoints') {
-      steps {
-        script {
-          def minioIp = sh(script: "getent hosts minio | awk '{ print \$1 }'", returnStdout: true).trim()
-          env.MINIO_URL = minioIp
-          def xoaIp = sh(script: "getent hosts xen-orchestra | awk '{ print \$1 }'", returnStdout: true).trim()
-          env.XOA_IP = xoaIp
-        }
-      }
-    }
   
     stage('init') {
       agent {
