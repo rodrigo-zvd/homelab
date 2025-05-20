@@ -9,7 +9,7 @@ variable "xoa_username" {
   description = "Username for Xen Orchestra"
   type        = string
   sensitive   = true
-  default     = "admin"
+  default     = "admin@admin.net"
 }
 
 variable "xoa_password" {
