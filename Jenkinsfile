@@ -87,69 +87,58 @@ pipeline {
       }
     }
 
-    // stage('Render Terraform Configs SH') {
-    //   steps {
-    //     withCredentials([
-    //       string(credentialsId: 'minio_access_key', variable: 'MINIO_ACCESS_KEY'),
-    //       string(credentialsId: 'minio_secret_key', variable: 'MINIO_SECRET_KEY'),
-    //       string(credentialsId: 'minio_endpoint',   variable: 'MINIO_ENDPOINT'),
-    //       string(credentialsId: 'xoa_url',          variable: 'XOA_URL'),
-    //       string(credentialsId: 'xoa_user',         variable: 'XOA_USERNAME'),
-    //       string(credentialsId: 'xoa_password',     variable: 'XOA_PASSWORD')
-    //     ]) {
-    //       dir('terraform') {
-    //         sh '''
-    //           docker run --rm \
-    //             -v "$PWD:/work" \
-    //             -e MINIO_ACCESS_KEY \
-    //             -e MINIO_SECRET_KEY \
-    //             -e MINIO_ENDPOINT \
-    //             -e XOA_URL \
-    //             -e XOA_USER \
-    //             -e XOA_PASSWORD \
-    //             hairyhenderson/gomplate \
-    //             -f /work/backend.hcl.tpl -o /work/backend.hcl
-
-    //           docker run --rm \
-    //             -v "$PWD:/work" \
-    //             -e XOA_URL \
-    //             -e XOA_USER \
-    //             -e XOA_PASSWORD \
-    //             hairyhenderson/gomplate \
-    //             -f /work/terraform.tfvars.tpl -o /work/terraform.tfvars
-    //         '''
-    //       }
-    //     }
-    //   }
-    // }
-
-    stage('Render Terraform Configs Agent Docker') {
-      agent {
-        docker {
-          image 'hairyhenderson/gomplate:latest'
-          args "-v ${PWD}/terraform:/work -w /work"
-        }
-      }
-      // environment {
-      //   WORKDIR = '/work'
-      // }
+    stage('Render Terraform Configs SH') {
       steps {
         withCredentials([
           string(credentialsId: 'minio_access_key', variable: 'MINIO_ACCESS_KEY'),
           string(credentialsId: 'minio_secret_key', variable: 'MINIO_SECRET_KEY'),
           string(credentialsId: 'minio_endpoint',   variable: 'MINIO_ENDPOINT'),
           string(credentialsId: 'xoa_url',          variable: 'XOA_URL'),
-          string(credentialsId: 'xoa_user',         variable: 'XOA_USER'),
+          string(credentialsId: 'xoa_user',         variable: 'XOA_USERNAME'),
           string(credentialsId: 'xoa_password',     variable: 'XOA_PASSWORD')
         ]) {
           dir('terraform') {
             sh '''
-              /gomplate -f backend.hcl.tpl -o backend.hcl
+              docker run --volume ${PWD}:/work \
+              --workdir /work \
+              --env MINIO_ENDPOINT=${MINIO_ENDPOINT} \
+              --env MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY} \
+              --env MINIO_SECRET_KEY=${MINIO_SECRET_KEY} \
+              hairyhenderson/gomplate:latest \
+              -f backend.hcl.tpl -o backend.hcl
             '''
           }
         }
       }
     }
+
+    // stage('Render Terraform Configs Agent Docker') {
+    //   agent {
+    //     docker {
+    //       image 'hairyhenderson/gomplate:latest'
+    //       args "-v ${PWD}/terraform:/work -w /work"
+    //     }
+    //   }
+    //   // environment {
+    //   //   WORKDIR = '/work'
+    //   // }
+    //   steps {
+    //     withCredentials([
+    //       string(credentialsId: 'minio_access_key', variable: 'MINIO_ACCESS_KEY'),
+    //       string(credentialsId: 'minio_secret_key', variable: 'MINIO_SECRET_KEY'),
+    //       string(credentialsId: 'minio_endpoint',   variable: 'MINIO_ENDPOINT'),
+    //       string(credentialsId: 'xoa_url',          variable: 'XOA_URL'),
+    //       string(credentialsId: 'xoa_user',         variable: 'XOA_USER'),
+    //       string(credentialsId: 'xoa_password',     variable: 'XOA_PASSWORD')
+    //     ]) {
+    //       dir('terraform') {
+    //         sh '''
+    //           /gomplate -f backend.hcl.tpl -o backend.hcl
+    //         '''
+    //       }
+    //     }
+    //   }
+    // }
 
 
     //   stage('Terraform Init SH') {

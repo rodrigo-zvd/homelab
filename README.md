@@ -38,3 +38,11 @@ hairyhenderson/gomplate \
 
 docker run -v "terraform:/work" -w /work hairyhenderson/gomplate:latest --entrypoint="gom
 plate -f backend.hcl.tpl -o backend.hcl"
+
+docker run --volume ${PWD}:/work \
+--workdir /work \
+--env MINIO_ENDPOINT=${MINIO_ENDPOINT} \
+--env MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY} \
+--env MINIO_SECRET_KEY=${MINIO_SECRET_KEY} \
+hairyhenderson/gomplate:latest \
+-f backend.hcl.tpl -o backend.hcl
