@@ -18,24 +18,3 @@ variable "xoa_password" {
   sensitive   = true
   default     = "admin"
 }
-
-variable "minio_url" {
-  description = "URL for Minio"
-  type        = string
-  sensitive   = true
-  default     = "http://localhost:9000"
-}
-
-variable "minio_access_key" {
-  description = "Minio Access Key S3"
-  type        = string
-  sensitive   = true
-  default     = "terraform"
-}
-
-variable "minio_secret_key" {
-  description = "Minio Secret Key S3"
-  type        = string
-  sensitive   = true
-  default     = "terraform123"
-}
