@@ -141,7 +141,7 @@ pipeline {
       steps {
         dir('terraform'){
         sh '''
-          terraform init -no-color -migrate-state
+          terraform init -no-color -migrate-state -backend-config=backend.hcl
         '''
         }
       }
@@ -157,7 +157,7 @@ pipeline {
       steps {
         dir('terraform'){
               sh '''
-                terraform plan -no-color
+                terraform plan -no-color -var-file=terraform.tfvars
               '''
         }
       }
