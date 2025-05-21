@@ -87,58 +87,93 @@ pipeline {
       }
     }
 
-    stage('Render Terraform Configs') {
+    // stage('Render Terraform Configs SH') {
+    //   steps {
+    //     withCredentials([
+    //       string(credentialsId: 'minio_access_key', variable: 'MINIO_ACCESS_KEY'),
+    //       string(credentialsId: 'minio_secret_key', variable: 'MINIO_SECRET_KEY'),
+    //       string(credentialsId: 'minio_endpoint',   variable: 'MINIO_ENDPOINT'),
+    //       string(credentialsId: 'xoa_url',          variable: 'XOA_URL'),
+    //       string(credentialsId: 'xoa_user',         variable: 'XOA_USERNAME'),
+    //       string(credentialsId: 'xoa_password',     variable: 'XOA_PASSWORD')
+    //     ]) {
+    //       dir('terraform') {
+    //         sh '''
+    //           docker run --rm \
+    //             -v "$PWD:/work" \
+    //             -e MINIO_ACCESS_KEY \
+    //             -e MINIO_SECRET_KEY \
+    //             -e MINIO_ENDPOINT \
+    //             -e XOA_URL \
+    //             -e XOA_USER \
+    //             -e XOA_PASSWORD \
+    //             hairyhenderson/gomplate \
+    //             -f /work/backend.hcl.tpl -o /work/backend.hcl
+
+    //           docker run --rm \
+    //             -v "$PWD:/work" \
+    //             -e XOA_URL \
+    //             -e XOA_USER \
+    //             -e XOA_PASSWORD \
+    //             hairyhenderson/gomplate \
+    //             -f /work/terraform.tfvars.tpl -o /work/terraform.tfvars
+    //         '''
+    //       }
+    //     }
+    //   }
+    // }
+
+    stage('Render Terraform Configs Agent Docker') {
+      agent {
+        docker {
+          image 'hairyhenderson/gomplate:latest'
+          args '-v $PWD:/work'
+        }
+      }
+      environment {
+        WORKDIR = '/work'
+      }
       steps {
         withCredentials([
           string(credentialsId: 'minio_access_key', variable: 'MINIO_ACCESS_KEY'),
           string(credentialsId: 'minio_secret_key', variable: 'MINIO_SECRET_KEY'),
           string(credentialsId: 'minio_endpoint',   variable: 'MINIO_ENDPOINT'),
           string(credentialsId: 'xoa_url',          variable: 'XOA_URL'),
-          string(credentialsId: 'xoa_user',         variable: 'XOA_USERNAME'),
+          string(credentialsId: 'xoa_user',         variable: 'XOA_USER'),
           string(credentialsId: 'xoa_password',     variable: 'XOA_PASSWORD')
         ]) {
           dir('terraform') {
             sh '''
-              docker run --rm \
-                -v "$PWD:/work" \
-                -e MINIO_ACCESS_KEY \
-                -e MINIO_SECRET_KEY \
-                -e MINIO_ENDPOINT \
-                -e XOA_URL \
-                -e XOA_USER \
-                -e XOA_PASSWORD \
-                hairyhenderson/gomplate \
-                -f /work/backend.hcl.tpl -o /work/backend.hcl
+              gomplate \
+                -f backend.hcl.tpl \
+                -o backend.hcl
 
-              docker run --rm \
-                -v "$PWD:/work" \
-                -e XOA_URL \
-                -e XOA_USER \
-                -e XOA_PASSWORD \
-                hairyhenderson/gomplate \
-                -f /work/terraform.tfvars.tpl -o /work/terraform.tfvars
+              gomplate \
+                -f terraform.tfvars.tpl \
+                -o terraform.tfvars
             '''
           }
         }
       }
     }
-  
-      stage('Terraform Init') {
-      steps {
-          dir('terraform') {
-            sh '''
-              docker run --rm \
-                -v "$PWD:/terraform" \
-                --add-host minio:${env.MINIO_URL} \
-                --add-host xen-orchestra:${env.XOA_IP} \
-                --entrypoint="terraform init -no-color -migrate-state -backend-config=backend.hcl"
-                hashicorp/terraform:1.11.4
-            '''
-          }
-      }
-    }
 
-    // stage('init') {
+
+    //   stage('Terraform Init SH') {
+    //   steps {
+    //       dir('terraform') {
+    //         sh '''
+    //           docker run --rm \
+    //             -v "$PWD:/terraform" \
+    //             --add-host minio:${env.MINIO_URL} \
+    //             --add-host xen-orchestra:${env.XOA_IP} \
+    //             --entrypoint="terraform init -no-color -migrate-state -backend-config=backend.hcl"
+    //             hashicorp/terraform:1.11.4
+    //         '''
+    //       }
+    //   }
+    // }
+
+    // stage('Terraform init docker agent') {
     //   agent {
     //     docker {
     //       image 'hashicorp/terraform:1.11.4'
@@ -154,47 +189,47 @@ pipeline {
     //   }
     // }
   
-    stage('plan') {
-      agent {
-        docker {
-          image 'hashicorp/terraform:1.11.4'
-          args "--entrypoint= --add-host minio:${env.MINIO_URL} --add-host xen-orchestra:${env.XOA_IP}"
-        }
-      }
-      steps {
-        dir('terraform'){
-              sh '''
-                terraform plan -no-color -var-file=terraform.tfvars
-              '''
-        }
-      }
-      when {
-        expression {
-          params.CREATE_OR_DESTROY == "Create"
-        }
-      }
-    }
+    // stage('plan') {
+    //   agent {
+    //     docker {
+    //       image 'hashicorp/terraform:1.11.4'
+    //       args "--entrypoint= --add-host minio:${env.MINIO_URL} --add-host xen-orchestra:${env.XOA_IP}"
+    //     }
+    //   }
+    //   steps {
+    //     dir('terraform'){
+    //           sh '''
+    //             terraform plan -no-color -var-file=terraform.tfvars
+    //           '''
+    //     }
+    //   }
+    //   when {
+    //     expression {
+    //       params.CREATE_OR_DESTROY == "Create"
+    //     }
+    //   }
+    // }
 
-    stage('apply') {
-      agent {
-        docker {
-          image 'hashicorp/terraform:1.11.4'
-          args "--entrypoint= --add-host minio:${env.MINIO_URL} --add-host xen-orchestra:${env.XOA_IP}"
-        }
-      }
-      steps {
-        dir('terraform'){
-        sh '''
-          terraform apply -no-color -auto-approve
-        '''
-        }
-      }
-      when {
-        expression {
-          params.CREATE_OR_DESTROY == "Create"
-        }
-      }
-    }
+    // stage('apply') {
+    //   agent {
+    //     docker {
+    //       image 'hashicorp/terraform:1.11.4'
+    //       args "--entrypoint= --add-host minio:${env.MINIO_URL} --add-host xen-orchestra:${env.XOA_IP}"
+    //     }
+    //   }
+    //   steps {
+    //     dir('terraform'){
+    //     sh '''
+    //       terraform apply -no-color -auto-approve
+    //     '''
+    //     }
+    //   }
+    //   when {
+    //     expression {
+    //       params.CREATE_OR_DESTROY == "Create"
+    //     }
+    //   }
+    // }
 
 //     // stage('kubespray') {
 //     //   agent {
@@ -225,26 +260,26 @@ pipeline {
 //     //   }
 //     // }
 
-    stage('destroy') {
-      agent {
-        docker {
-          image 'hashicorp/terraform:1.11.4'
-          args "--entrypoint= --add-host minio:${env.MINIO_URL} --add-host xen-orchestra:${env.XOA_IP}"
-        }
-      }
-      steps {
-        dir('terraform') {
-          sh '''
-            terraform apply -destroy -no-color -auto-approve
-          '''
-        }
-      }
-      when {
-        expression {
-          params.CREATE_OR_DESTROY == "Destroy"
-        }
-      }
-    }
+    // stage('destroy') {
+    //   agent {
+    //     docker {
+    //       image 'hashicorp/terraform:1.11.4'
+    //       args "--entrypoint= --add-host minio:${env.MINIO_URL} --add-host xen-orchestra:${env.XOA_IP}"
+    //     }
+    //   }
+    //   steps {
+    //     dir('terraform') {
+    //       sh '''
+    //         terraform apply -destroy -no-color -auto-approve
+    //       '''
+    //     }
+    //   }
+    //   when {
+    //     expression {
+    //       params.CREATE_OR_DESTROY == "Destroy"
+    //     }
+    //   }
+    // }
 
 }
 }
