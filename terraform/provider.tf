@@ -10,25 +10,25 @@ terraform {
       version = "2.5.2"
     }
   }
-  backend "s3" {
-    bucket = "terraform-state"
-    key    = "terraform.state"
-    region = "placeholder"
+  # backend "s3" {
+  #   bucket = "terraform-state"
+  #   key    = "terraform.state"
+  #   region = "placeholder"
 
-    endpoints = {
-      s3 = "http://minio:9000"
-    }
+  #   endpoints = {
+  #     s3 = "http://minio:9000"
+  #   }
 
-    access_key = var.minio_access_key
-    secret_key = var.minio_secret_key
+  #   access_key = var.minio_access_key
+  #   secret_key = var.minio_secret_key
 
-    skip_credentials_validation = true
-    skip_metadata_api_check     = true
-    skip_region_validation      = true
-    skip_requesting_account_id  = true
-    use_path_style              = true
+  #   skip_credentials_validation = true
+  #   skip_metadata_api_check     = true
+  #   skip_region_validation      = true
+  #   skip_requesting_account_id  = true
+  #   use_path_style              = true
 
-  }
+  # }
 }
 
 # Configure the XenServer Provider

@@ -3,11 +3,11 @@ key    = "terraform.state"
 region = "placeholder"
 
 endpoints = {
-  s3 = http://minio:9000
+  s3 = "{{ .Env.MINIO_ENDPOINT }}"
 }
 
-access_key = "{{ env "MINIO_ACCESS_KEY" }}"
-secret_key = "{{ env "MINIO_SECRET_KEY" }}"
+access_key = "{{ .Env.MINIO_ACCESS_KEY }}"
+secret_key = "{{ .Env.MINIO_SECRET_KEY }}"
 
 skip_credentials_validation = true
 skip_metadata_api_check     = true

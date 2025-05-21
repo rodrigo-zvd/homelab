@@ -44,3 +44,6 @@ id_ed25519.pub
 
 #Ignore Ansible Inventory
 inventory.ini
+
+#Ignore backed config file
+backend.hcl

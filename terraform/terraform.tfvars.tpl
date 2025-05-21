@@ -1,3 +1,3 @@
-xoa_url      = ws://xen-orchestra:80
-xoa_username = "{{ env "XOA_USERNAME" }}"
-xoa_password = "{{ env "XOA_PASSWORD" }}"
+xoa_url      = "{{ .Env.XOA_URL }}"
+xoa_username = "{{ .Env.XOA_USER }}"
+xoa_password = "{{ .Env.XOA_PASSWORD }}"
