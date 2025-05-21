@@ -127,7 +127,7 @@ pipeline {
       agent {
         docker {
           image 'hairyhenderson/gomplate:latest'
-          args "-v ${PWD}/terraform:/work -w /work"
+          args "-v ${PWD}/terraform:/work -w /work --entrypoint="
         }
       }
       // environment {
