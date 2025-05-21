@@ -30,6 +30,11 @@ credentials:
       - credentials:
           - string:
               scope: GLOBAL
+              id: "xoa_url"
+              secret: "${XOA_URL}"
+              description: "Secret Text"
+          - string:
+              scope: GLOBAL
               id: "xoa_user"
               secret: "${XOA_USER}"
               description: "Secret Text"
