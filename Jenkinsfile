@@ -127,12 +127,12 @@ pipeline {
       agent {
         docker {
           image 'hairyhenderson/gomplate:latest'
-          args '-v $PWD:/work --entrypoint='''
+          args "-v ${env.WORKSPACE}/terraform:/work -w /work"
         }
       }
-      environment {
-        WORKDIR = '/work'
-      }
+      // environment {
+      //   WORKDIR = '/work'
+      // }
       steps {
         withCredentials([
           string(credentialsId: 'minio_access_key', variable: 'MINIO_ACCESS_KEY'),
