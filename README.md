@@ -35,3 +35,6 @@ docker run --rm \
 -e XOA_PASSWORD \
 hairyhenderson/gomplate \
 -f /work/terraform.tfvars.tpl -o /work/terraform.tfvars
+
+docker run -v "terraform:/work" -w /work hairyhenderson/gomplate:latest --entrypoint="gom
+plate -f backend.hcl.tpl -o backend.hcl"
