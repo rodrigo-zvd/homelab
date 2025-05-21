@@ -127,7 +127,7 @@ pipeline {
       agent {
         docker {
           image 'hairyhenderson/gomplate:latest'
-          args "-v ${PWD}/terraform:/work -w /work --entrypoint="
+          args "-v ${PWD}/terraform:/work -w /work"
         }
       }
       // environment {
@@ -144,7 +144,7 @@ pipeline {
         ]) {
           dir('terraform') {
             sh '''
-              /bin/gomplate -f backend.hcl.tpl -o backend.hcl
+              /gomplate -f backend.hcl.tpl -o backend.hcl
             '''
           }
         }
