@@ -127,7 +127,7 @@ pipeline {
       agent {
         docker {
           image 'hairyhenderson/gomplate:latest'
-          args '-v $PWD:/work'
+          args '-v $PWD:/work --entrypoint='''
         }
       }
       environment {
