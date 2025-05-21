@@ -23,7 +23,7 @@ docker run --rm \
 -e MINIO_SECRET_KEY \
 -e MINIO_ENDPOINT \
 -e XOA_URL \
--e XOA_USERNAME \
+-e XOA_USER \
 -e XOA_PASSWORD \
 hairyhenderson/gomplate \
 -f /work/backend.hcl.tpl -o /work/backend.hcl

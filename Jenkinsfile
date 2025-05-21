@@ -113,7 +113,7 @@ pipeline {
                 -e MINIO_SECRET_KEY \
                 -e MINIO_ENDPOINT \
                 -e XOA_URL \
-                -e XOA_USERNAME \
+                -e XOA_USER \
                 -e XOA_PASSWORD \
                 hairyhenderson/gomplate \
                 -f /work/backend.hcl.tpl -o /work/backend.hcl
@@ -121,7 +121,7 @@ pipeline {
               docker run --rm \
                 -v "$PWD:/work" \
                 -e XOA_URL \
-                -e XOA_USERNAME \
+                -e XOA_USER \
                 -e XOA_PASSWORD \
                 hairyhenderson/gomplate \
                 -f /work/terraform.tfvars.tpl -o /work/terraform.tfvars
