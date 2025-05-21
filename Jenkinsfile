@@ -98,9 +98,9 @@ pipeline {
     stage('Render Terraform Configs') {
       steps {
         withCredentials([
-          string(credentialsId: 'minio-access-key', variable: 'MINIO_ACCESS_KEY'),
-          string(credentialsId: 'minio-secret-key', variable: 'MINIO_SECRET_KEY'),
-          string(credentialsId: 'minio-endpoint',   variable: 'MINIO_ENDPOINT'),
+          string(credentialsId: 'minio_access_key', variable: 'MINIO_ACCESS_KEY'),
+          string(credentialsId: 'minio_secret_key', variable: 'MINIO_SECRET_KEY'),
+          string(credentialsId: 'minio_endpoint',   variable: 'MINIO_ENDPOINT'),
           string(credentialsId: 'xoa_url',          variable: 'XOA_URL'),
           string(credentialsId: 'xoa_user',         variable: 'XOA_USERNAME'),
           string(credentialsId: 'xoa_password',     variable: 'XOA_PASSWORD')
