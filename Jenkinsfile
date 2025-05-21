@@ -99,7 +99,7 @@ pipeline {
       agent {
         docker {
           image 'hairyhenderson/gomplate:v4.3-alpine'
-          args '-v $PWD:/work --entrypoint='
+          args '-v $PWD:/work'
         }
       }
       environment {
