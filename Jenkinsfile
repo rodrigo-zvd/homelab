@@ -89,30 +89,11 @@ pipeline {
       }
     }
 
-    // stage('Gerar backend.hcl com gomplate') {
-    //     agent {
-    //       docker {
-    //           image 'alpine'
-    //           args "--entrypoint= -v $PWD:/work -w /work --env MINIO_ENDPOINT=${MINIO_ENDPOINT} --env MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY} --env MINIO_SECRET_KEY=${MINIO_SECRET_KEY}"
-    //       }
-    //     }
-    //     environment {
-    //       MINIO_ENDPOINT   = credentials('minio-endpoint')
-    //       MINIO_ACCESS_KEY = credentials('minio-access-key')
-    //       MINIO_SECRET_KEY = credentials('minio-secret-key')
-    //     }
-    //     steps {
-    //       dir('terraform') {
-    //         sh 'env | grep -i minio'
-    //       }
-    //     } 
-    // }
-
     stage('Gerar backend.hcl com gomplate') {
         agent {
           docker {
-              image 'hairyhenderson/gomplate:latest'
-              args "--entrypoint=/gomplate -v $PWD:/work -w /work --env MINIO_ENDPOINT=${MINIO_ENDPOINT} --env MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY} --env MINIO_SECRET_KEY=${MINIO_SECRET_KEY}"
+              image 'alpine'
+              args "--entrypoint= -v $PWD:/work -w /work --env MINIO_ENDPOINT=${MINIO_ENDPOINT} --env MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY} --env MINIO_SECRET_KEY=${MINIO_SECRET_KEY}"
           }
         }
         environment {
@@ -122,10 +103,29 @@ pipeline {
         }
         steps {
           dir('terraform') {
-            sh '-f backend.hcl.tpl -o backend.hcl -V'
+            sh 'env | grep -i minio'
           }
-        }
+        } 
     }
+
+    // stage('Gerar backend.hcl com gomplate') {
+    //     agent {
+    //       docker {
+    //           image 'hairyhenderson/gomplate:latest'
+    //           args "--entrypoint=/gomplate -v $PWD:/work -w /work --env MINIO_ENDPOINT=${MINIO_ENDPOINT} --env MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY} --env MINIO_SECRET_KEY=${MINIO_SECRET_KEY}"
+    //       }
+    //     }
+    //     environment {
+    //       MINIO_ENDPOINT   = credentials('minio_endpoint')
+    //       MINIO_ACCESS_KEY = credentials('minio_access_key')
+    //       MINIO_SECRET_KEY = credentials('minio_secret_key')
+    //     }
+    //     steps {
+    //       dir('terraform') {
+    //         sh '-f backend.hcl.tpl -o backend.hcl -V'
+    //       }
+    //     }
+    // }
 
     // stage('Render Terraform Configs SH') {
     //   steps {
