@@ -100,7 +100,7 @@ pipeline {
             MINIO_SECRET_KEY = credentials('minio-secret-key')
         }
         steps {
-            sh '-f backend.hcl.tpl -o backend.hcl'
+            sh '/gomplate  -f backend.hcl.tpl -o backend.hcl'
         }
 }
 
