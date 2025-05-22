@@ -100,9 +100,11 @@ pipeline {
             MINIO_SECRET_KEY = credentials('minio-secret-key')
         }
         steps {
-            sh '-f backend.hcl.tpl -o backend.hcl'
+          dir('terraform') {
+            sh '-f backend.hcl.tpl -o backend.hcl -V'
+          }
         }
-}
+    }
 
     // stage('Render Terraform Configs SH') {
     //   steps {
