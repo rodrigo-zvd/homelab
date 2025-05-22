@@ -106,7 +106,6 @@ pipeline {
             sh '''
             /bin/gomplate -f backend.hcl.tpl -o backend.hcl -V
             '''
-
         }
     }
     }
