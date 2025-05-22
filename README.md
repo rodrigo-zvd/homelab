@@ -46,5 +46,5 @@ docker run --volume ${PWD}:/work \
 --env MINIO_SECRET_KEY=${MINIO_SECRET_KEY} \
 --entrypoint=/gomplate \
 hairyhenderson/gomplate:latest \
- -f backend.hcl.tpl -o backend.hcl -V
+-f backend.hcl.tpl -o backend.hcl -V
 
