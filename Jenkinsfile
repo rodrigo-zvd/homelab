@@ -193,21 +193,21 @@ pipeline {
     //   }
     // }
 
-    // stage('Terraform init docker agent') {
-    //   agent {
-    //     docker {
-    //       image 'hashicorp/terraform:1.11.4'
-    //       args "--entrypoint= --add-host minio:${env.MINIO_URL} --add-host xen-orchestra:${env.XOA_IP}"
-    //     }
-    //   }
-    //   steps {
-    //     dir('terraform'){
-    //     sh '''
-    //       terraform init -no-color -migrate-state -backend-config=backend.hcl
-    //     '''
-    //     }
-    //   }
-    // }
+    stage('Terraform init docker agent') {
+      agent {
+        docker {
+          image 'hashicorp/terraform:1.11.4'
+          args "--entrypoint= --add-host minio:${env.MINIO_URL} --add-host xen-orchestra:${env.XOA_IP}"
+        }
+      }
+      steps {
+        dir('terraform'){
+        sh '''
+          terraform init -no-color -migrate-state -backend-config=backend.hcl
+        '''
+        }
+      }
+    }
   
     // stage('plan') {
     //   agent {
