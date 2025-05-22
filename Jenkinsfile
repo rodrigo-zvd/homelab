@@ -189,7 +189,8 @@ pipeline {
       steps {
         dir('terraform'){
         sh '''
-          terraform init -no-color -migrate-state -backend-config=backend.hcl
+          #terraform init -no-color -migrate-state -backend-config=backend.hcl
+          terraform init -no-color
         '''
         }
       }
