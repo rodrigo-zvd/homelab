@@ -112,13 +112,13 @@ pipeline {
         agent {
           docker {
               image 'hairyhenderson/gomplate:alpine'
-              args "-v ${PWD}:/work -w /work --env MINIO_ENDPOINT=${MINIO_ENDPOINT} --env MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY} --env MINIO_SECRET_KEY=${MINIO_SECRET_KEY}"
+              args "--entrypoint= -v ${PWD}:/work -w /work --env MINIO_ENDPOINT=${MINIO_ENDPOINT} --env MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY} --env MINIO_SECRET_KEY=${MINIO_SECRET_KEY}"
           }
         }
         steps {
           dir('terraform') {
             sh '''
-            gomplate -f backend.hcl.tpl -o backend.hcl -V
+            /bin/gomplate -f backend.hcl.tpl -o backend.hcl -V
             '''
 
         }
