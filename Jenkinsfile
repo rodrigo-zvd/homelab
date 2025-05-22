@@ -223,7 +223,7 @@ pipeline {
       steps {
         dir('terraform'){
               sh '''
-                terraform plan -no-color -var-file=terraform.tfvars
+                terraform plan -no-color
               '''
         }
       }
@@ -234,26 +234,26 @@ pipeline {
       }
     }
 
-    // stage('apply') {
-    //   agent {
-    //     docker {
-    //       image 'hashicorp/terraform:1.11.4'
-    //       args "--entrypoint= --add-host minio:${env.MINIO_URL} --add-host xen-orchestra:${env.XOA_IP}"
-    //     }
-    //   }
-    //   steps {
-    //     dir('terraform'){
-    //     sh '''
-    //       terraform apply -no-color -auto-approve
-    //     '''
-    //     }
-    //   }
-    //   when {
-    //     expression {
-    //       params.CREATE_OR_DESTROY == "Create"
-    //     }
-    //   }
-    // }
+    stage('apply') {
+      agent {
+        docker {
+          image 'hashicorp/terraform:1.11.4'
+          args "--entrypoint= --add-host minio:${env.MINIO_URL} --add-host xen-orchestra:${env.XOA_IP}"
+        }
+      }
+      steps {
+        dir('terraform'){
+        sh '''
+          terraform apply -no-color -auto-approve
+        '''
+        }
+      }
+      when {
+        expression {
+          params.CREATE_OR_DESTROY == "Create"
+        }
+      }
+    }
 
 //     // stage('kubespray') {
 //     //   agent {

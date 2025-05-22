@@ -46,5 +46,5 @@ docker run --volume ${PWD}:/work \
 --env MINIO_SECRET_KEY=${MINIO_SECRET_KEY} \
 --entrypoint=  \
 hairyhenderson/gomplate:alpine \
-cat
+/bin/gomplate -f backend.hcl.tpl -o backend.hcl -V
 
