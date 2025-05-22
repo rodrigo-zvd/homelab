@@ -6,9 +6,9 @@ pipeline {
     XOA_USER = credentials('xoa_user')
     XOA_PASSWORD = credentials('xoa_password')
     JENKINS_PUB_KEY = credentials('jenkins-pub-key')
-    // MINIO_ENDPOINT   = credentials('minio_endpoint')
-    // MINIO_ACCESS_KEY = credentials('minio_access_key')
-    // MINIO_SECRET_KEY = credentials('minio_secret_key')
+    MINIO_ENDPOINT   = credentials('minio_endpoint')
+    MINIO_ACCESS_KEY = credentials('minio_access_key')
+    MINIO_SECRET_KEY = credentials('minio_secret_key')
   }
   
   parameters {
@@ -58,7 +58,7 @@ pipeline {
     //   }
     // }
     
-    stage('SSH Keys Deploy') {
+    stage('ssh keys') {
       agent {
         docker {
           image 'alpine'
@@ -78,7 +78,7 @@ pipeline {
       }
     }
 
-    stage('Setup Endpoints') {
+    stage('endpoints') {
       steps {
         script {
           def minioIp = sh(script: "getent hosts minio | awk '{ print \$1 }'", returnStdout: true).trim()
@@ -108,18 +108,18 @@ pipeline {
         } 
     }
 
-    stage('Gerar backend.hcl com gomplate') {
+    stage('backend.hcl') {
         agent {
           docker {
               image 'hairyhenderson/gomplate:alpine'
               args "--entrypoint= -v ${PWD}:/work -w /work --env MINIO_ENDPOINT=${MINIO_ENDPOINT} --env MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY} --env MINIO_SECRET_KEY=${MINIO_SECRET_KEY}"
           }
         }
-        environment {
-          MINIO_ENDPOINT   = credentials('minio_endpoint')
-          MINIO_ACCESS_KEY = credentials('minio_access_key')
-          MINIO_SECRET_KEY = credentials('minio_secret_key')
-        }
+        // environment {
+        //   MINIO_ENDPOINT   = credentials('minio_endpoint')
+        //   MINIO_ACCESS_KEY = credentials('minio_access_key')
+        //   MINIO_SECRET_KEY = credentials('minio_secret_key')
+        // }
         steps {
           dir('terraform') {
             sh '''
@@ -130,7 +130,7 @@ pipeline {
     }
     }
 
-    stage('Gerar terraform.tfvars com gomplate') {
+    stage('terraform.tfvars') {
         agent {
           docker {
               image 'hairyhenderson/gomplate:alpine'
@@ -152,7 +152,7 @@ pipeline {
     }
     }
 
-    stage('Terraform init docker agent') {
+    stage('terraform init') {
       agent {
         docker {
           image 'hashicorp/terraform:1.11.4'
@@ -169,7 +169,7 @@ pipeline {
       }
     }
   
-    stage('plan') {
+    stage('terraform plan') {
       agent {
         docker {
           image 'hashicorp/terraform:1.11.4'
@@ -190,7 +190,7 @@ pipeline {
       }
     }
 
-    stage('apply') {
+    stage('terraform apply') {
       agent {
         docker {
           image 'hashicorp/terraform:1.11.4'
@@ -240,7 +240,7 @@ pipeline {
 //     //   }
 //     // }
 
-    stage('destroy') {
+    stage('terraform destroy') {
       agent {
         docker {
           image 'hashicorp/terraform:1.11.4'
