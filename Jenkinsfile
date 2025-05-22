@@ -141,20 +141,20 @@ pipeline {
     // }
 
 
-    //   stage('Terraform Init SH') {
-    //   steps {
-    //       dir('terraform') {
-    //         sh '''
-    //           docker run --rm \
-    //             -v "$PWD:/terraform" \
-    //             --add-host minio:${env.MINIO_URL} \
-    //             --add-host xen-orchestra:${env.XOA_IP} \
-    //             --entrypoint="terraform init -no-color -migrate-state -backend-config=backend.hcl"
-    //             hashicorp/terraform:1.11.4
-    //         '''
-    //       }
-    //   }
-    // }
+      stage('Terraform Init SH') {
+      steps {
+          dir('terraform') {
+            sh '''
+              docker run --rm \
+                -v "$PWD:/terraform" \
+                --add-host minio:${env.MINIO_URL} \
+                --add-host xen-orchestra:${env.XOA_IP} \
+                --entrypoint="terraform init -no-color -migrate-state -backend-config=backend.hcl"
+                hashicorp/terraform:1.11.4
+            '''
+          }
+      }
+    }
 
     // stage('Terraform init docker agent') {
     //   agent {
