@@ -47,12 +47,3 @@ docker run --volume ${PWD}:/work \
 hairyhenderson/gomplate:latest \
 -f backend.hcl.tpl -o backend.hcl
 
-docker run --rm \
--v "$PWD:/terraform" \
--w "/terraform" \
---add-host minio:127.0.0.1 \
---add-host xen-orchestra:127.0.0.1 \
-hashicorp/terraform:1.11.4
-init 
-"terraform" "init -no-color -migrate-state -backend-config=backend.hcl"
-
