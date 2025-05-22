@@ -6,9 +6,9 @@ pipeline {
     XOA_USER = credentials('xoa_user')
     XOA_PASSWORD = credentials('xoa_password')
     JENKINS_PUB_KEY = credentials('jenkins-pub-key')
-    MINIO_ENDPOINT   = credentials('minio-endpoint')
-    MINIO_ACCESS_KEY = credentials('minio-access-key')
-    MINIO_SECRET_KEY = credentials('minio-secret-key')
+    MINIO_ENDPOINT   = credentials('minio_endpoint')
+    MINIO_ACCESS_KEY = credentials('minio_access_key')
+    MINIO_SECRET_KEY = credentials('minio_secret_key')
   }
   
   parameters {

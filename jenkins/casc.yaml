@@ -74,7 +74,7 @@ credentials:
                   privateKey: "${readFile:/certs/id_ed25519}"
 jobs:
   - script: >
-      pipelineJob('test') {
+      pipelineJob('Kubernetes-IaC') {
         definition {
             cpsScm {
                 scm {
