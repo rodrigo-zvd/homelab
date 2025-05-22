@@ -89,32 +89,6 @@ pipeline {
       }
     }
 
-    stage('Env Minio') {
-        agent {
-          docker {
-              image 'alpine'
-              args {
-                "--entrypoint= \
-                -v $PWD:/work \
-                -w /work \
-                --env MINIO_ENDPOINT=${MINIO_ENDPOINT} \
-                --env MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY} \
-                --env MINIO_SECRET_KEY=${MINIO_SECRET_KEY}"    
-              }
-          }
-        }
-        // environment {
-        //   MINIO_ENDPOINT   = credentials('minio_endpoint')
-        //   MINIO_ACCESS_KEY = credentials('minio_access_key')
-        //   MINIO_SECRET_KEY = credentials('minio_secret_key')
-        // }
-        steps {
-          dir('terraform') {
-            sh 'env | grep -i minio'
-          }
-        } 
-    }
-
     stage('backend.hcl') {
         agent {
           docker {
