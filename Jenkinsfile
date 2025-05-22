@@ -118,7 +118,7 @@ pipeline {
         steps {
           dir('terraform') {
             sh '''
-            -f backend.hcl.tpl -o backend.hcl -V
+            gomplate -f backend.hcl.tpl -o backend.hcl -V
             '''
           }
         }
