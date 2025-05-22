@@ -45,16 +45,6 @@ credentials:
               description: "Secret Text"
           - string:
               scope: GLOBAL
-              id: "aws_access_key_id"
-              secret: "${AWS_ACCESS_KEY_ID}"
-              description: "Secret Text"
-          - string:
-              scope: GLOBAL
-              id: "aws_secret_access_key"
-              secret: "${AWS_SECRET_ACCESS_KEY}"
-              description: "Secret Text"
-          - string:
-              scope: GLOBAL
               id: "minio_endpoint"
               secret: "${MINIO_ENDPOINT}"
               description: "Secret Text"

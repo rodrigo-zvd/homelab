@@ -2,10 +2,9 @@ pipeline {
   agent any
 
   environment {
+    XOA_URL = credentials('xoa_url')
     XOA_USER = credentials('xoa_user')
     XOA_PASSWORD = credentials('xoa_password')
-    AWS_ACCESS_KEY_ID = credentials('aws_access_key_id')
-    AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key')
     JENKINS_PUB_KEY = credentials('jenkins-pub-key')
     MINIO_ENDPOINT   = credentials('minio-endpoint')
     MINIO_ACCESS_KEY = credentials('minio-access-key')
