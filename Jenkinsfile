@@ -7,6 +7,9 @@ pipeline {
     AWS_ACCESS_KEY_ID = credentials('aws_access_key_id')
     AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key')
     JENKINS_PUB_KEY = credentials('jenkins-pub-key')
+    MINIO_ENDPOINT   = credentials('minio-endpoint')
+    MINIO_ACCESS_KEY = credentials('minio-access-key')
+    MINIO_SECRET_KEY = credentials('minio-secret-key')
   }
   
   parameters {
@@ -94,11 +97,11 @@ pipeline {
               args "--entrypoint= -v $PWD:/work -w /work --env MINIO_ENDPOINT=${MINIO_ENDPOINT} --env MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY} --env MINIO_SECRET_KEY=${MINIO_SECRET_KEY}"
           }
         }
-        environment {
-          MINIO_ENDPOINT   = credentials('minio-endpoint')
-          MINIO_ACCESS_KEY = credentials('minio-access-key')
-          MINIO_SECRET_KEY = credentials('minio-secret-key')
-        }
+        // environment {
+        //   MINIO_ENDPOINT   = credentials('minio-endpoint')
+        //   MINIO_ACCESS_KEY = credentials('minio-access-key')
+        //   MINIO_SECRET_KEY = credentials('minio-secret-key')
+        // }
         steps {
           dir('terraform') {
             sh 'env | grep -i minio'
