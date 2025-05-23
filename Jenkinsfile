@@ -204,10 +204,16 @@ pipeline {
             export ANSIBLE_ROLES_PATH="$ANSIBLE_ROLES_PATH:/kubespray/roles"
             export ANSIBLE_HOST_KEY_CHECKING="False"
 
+            #ansible-playbook \
+              #--become \
+              #--inventory inventory.ini \
+              #--extra-vars "kube_network_plugin=flannel" \
+              #--private-key id_ed25519 \
+              #/kubespray/cluster.yml
+
             ansible-playbook \
               --become \
               --inventory inventory.ini \
-              #--extra-vars "kube_network_plugin=flannel" \
               --private-key id_ed25519 \
               /kubespray/cluster.yml
           '''
