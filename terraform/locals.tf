@@ -39,13 +39,13 @@ locals {
   # master specific configuration
   masters = {
     # how many nodes?
-    count = 3
+    count = 1
 
     name_prefix = "k8s-master"
 
     # hardware info
     cores  = 2
-    memory = 2147483648
+    memory = 4294967296
     disks = {
       xvda = {
         name = "xvda"
