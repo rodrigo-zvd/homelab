@@ -207,7 +207,7 @@ pipeline {
             ansible-playbook \
               --become \
               --inventory inventory.ini \
-              --extra-vars "kube_network_plugin=flannel" \
+              #--extra-vars "kube_network_plugin=flannel" \
               --private-key id_ed25519 \
               /kubespray/cluster.yml
           '''
