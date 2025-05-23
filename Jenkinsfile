@@ -194,7 +194,7 @@ pipeline {
     stage('kubespray') {
       agent {
         docker {
-          image 'quay.io/kubespray/kubespray:v2.27.0'
+          image 'quay.io/kubespray/kubespray:v2.28.0'
           args '--entrypoint="" -u root'
         }
       }
