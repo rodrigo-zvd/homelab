@@ -208,6 +208,7 @@ pipeline {
               --become \
               --inventory inventory.ini \
               --private-key id_ed25519 \
+              --extra-vars "kubeadm_ignore_preflight_errors=all" \
               /kubespray/cluster.yml
           '''
         }
